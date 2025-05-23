@@ -67,5 +67,11 @@ code: dict = {
     'reset': '\033[0m'
 }
 
+
 # * Function to get ansi encoded string
-ansi = lambda text, fg, bg, style: fg + bg + style + text + code['reset']
+def ansi(**kwargs) -> str:
+    fg: str = kwargs.get('fg', '')
+    bg: str = kwargs.get('bg', '')
+    style: str = kwargs.get('style', '')
+    text: str = kwargs.get('text', '')
+    return fg + bg + style + text + code['reset']

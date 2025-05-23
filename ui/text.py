@@ -1,4 +1,4 @@
-import color
+from ui.color import ansi
 
 
 ########################################
@@ -38,7 +38,7 @@ class Property:
 class Text:
     def __init__(self, **kwargs):
         self.__text = kwargs.get('text', '')
-        self.property = kwargs.get('property', Property())
+        self._property = kwargs.get('property', Property())
 
     # * Getter
     @property
@@ -47,4 +47,4 @@ class Text:
 
     # * Method - Representation
     def __repr__(self) -> str:
-        pass
+        return ansi(text=self.text, fg=self._property.fg, bg=self._property.bg, style=self._property.style)

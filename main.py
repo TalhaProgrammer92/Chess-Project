@@ -1,17 +1,13 @@
-from ui.color import *
+from ui.color import code
+from ui.text import *
 
 if __name__ == '__main__':
-    print(
-        ansi(
-            'Hello,',
-            code['color']['foreground']['bright']['yellow'],
-            code['color']['background']['dark']['white'],
-            code['style']['bold']
-        ),
-        ansi(
-            'World!',
-            code['color']['foreground']['dark']['red'],
-            code['color']['background']['bright']['cyan'],
-            code['style']['italic'] + code['style']['under-line']
+    text = Text(
+        text='Hello, World!', property=Property(
+            fg=code['color']['foreground']['bright']['red'],
+            bg=code['color']['background']['dark']['white'],
+            style=code['style']['italic'] + code['style']['bold']
         )
     )
+
+    print(text)
