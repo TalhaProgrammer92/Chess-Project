@@ -1,7 +1,11 @@
 from ui.color import code
 from ui.text import *
+
 from utils.position import *
+import utils.settings as settings
+
 from pieces.unicode import *
+from pieces.piece import *
 
 if __name__ == '__main__':
     text: Text = Text(
@@ -23,3 +27,7 @@ if __name__ == '__main__':
         empty_cell['white'],
         empty_cell['black']
     )
+
+    piece1, piece2 = (Piece(symbol=chess_piece['white']['pawn'], color=settings.board_items['color']['white']),
+                      Piece(symbol=chess_piece['black']['pawn'], color=settings.board_items['color']['black']))
+    print(piece1, piece2)
