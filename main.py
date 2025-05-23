@@ -1,4 +1,4 @@
-from UI.color import *
+from ui.color import *
 
 if __name__ == '__main__':
     print(
