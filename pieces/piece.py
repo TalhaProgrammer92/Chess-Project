@@ -1,4 +1,5 @@
 from ui.color import ansi
+from utils.position import *
 
 
 ############################
@@ -8,6 +9,7 @@ class Piece:
     def __init__(self, **kwargs):
         self.__symbol: str = kwargs.get('symbol', '')
         self.__color: str = kwargs.get('color', '')
+        self.position: Position = kwargs.get('position', Position())
 
     # * Getter
     def symbol(self) -> str:

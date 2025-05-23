@@ -28,6 +28,12 @@ if __name__ == '__main__':
         empty_cell['black']
     )
 
-    piece1, piece2 = (Piece(symbol=chess_piece['white']['pawn'], color=settings.board_items['color']['white']),
-                      Piece(symbol=chess_piece['black']['pawn'], color=settings.board_items['color']['black']))
+    piece1, piece2 = (Piece(symbol=chess_piece['white']['pawn'],
+                            color=settings.board_items['color']['white'],
+                            position=Position(row=1, column=2)),
+
+                      Piece(symbol=chess_piece['black']['pawn'],
+                            color=settings.board_items['color']['black'],
+                            position=Position(row=6, column=2)))
     print(piece1, piece2)
+    print(piece1.position, piece2.position)
