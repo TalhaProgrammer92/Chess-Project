@@ -27,6 +27,14 @@ class Piece:
     def displacement(self, destination: Position) -> Position:
         return destination - self._position
 
+    # * Method - If path is clear
+    def is_clear_path(self, destination: Position) -> bool:
+        # step: Position(
+        #     row=(destination.row - self._position.row) // max(1, abs(destination.row - self._position.row)) if self.position.row != destination.row else 0,
+        #     column=(destination.column - self._position.column) // max(1, abs(destination.column - self._position.column)) if self.position.column != destination.column else 0
+        # )
+        pass
+
     # * Method - Check if move is valid
     def is_valid_move(self, destination: Position) -> bool:
         return self.displacement(destination) in self._valid_moves
@@ -138,8 +146,6 @@ class Pawn(Piece):
         return False
 
     # * Method - Promote to Queen/Bishop/Rook/Knight
-    # def promotion(self, piece: str) -> Queen | Bishop | Rook | Knight:
-    #     return self.__promote[piece]
     def promotion(self, piece: str) -> Queen | Bishop | Rook | Knight:
         promote_map = {
             'queen': lambda: Queen(type=self.__type, position=self._position),
