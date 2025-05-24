@@ -1,7 +1,6 @@
 from ui.color import ansi
 from utils.position import *
 from board.func import get_empty_cell
-from pieces.unicode import *
 import utils.settings as settings
 
 
@@ -47,12 +46,11 @@ class Piece:
 ###########
 class Pawn(Piece):
     def __init__(self, _type: str):
-        super().__init__(symbol=chess_piece[_type]['pawn'], color=settings.board_items['color']['piece'][_type])
+        super().__init__(symbol=settings.board_items['unicode']['piece'][_type]['pawn'], color=settings.board_items['color']['piece'][_type])
         self._valid_moves.extend([
             Position(row=1, column=0),
-            Position(row=0, column=1),
             Position(row=1, column=1),
-            Position(row=2, column=0)
+            Position(row=2, column=0)   # Special move - Only once in a game
         ])
         self.__double_move_eligible: bool = True
 
@@ -78,9 +76,9 @@ class Pawn(Piece):
 ###########
 class Rook(Piece):
     def __init__(self, _type: str):
-        super().__init__(symbol=chess_piece[_type]['rook'], color=settings.board_items['color']['piece'][_type])
-        self._valid_moves.extend([Position(row=r, column=0) for r in range(8)])    # Rows
-        self._valid_moves.extend([Position(row=0, column=c) for c in range(8)])    # Columns
+        super().__init__(symbol=settings.board_items['unicode']['piece'][_type]['rook'], color=settings.board_items['color']['piece'][_type])
+        self._valid_moves.extend([Position(row=r, column=0) for r in range(8)])     # Rows
+        self._valid_moves.extend([Position(row=0, column=c) for c in range(8)])     # Columns
 
 
 #############
@@ -88,7 +86,7 @@ class Rook(Piece):
 #############
 class Knight(Piece):
     def __init__(self, _type: str):
-        super().__init__(symbol=chess_piece[_type]['knight'], color=settings.board_items['color']['piece'][_type])
+        super().__init__(symbol=settings.board_items['unicode']['piece'][_type]['knight'], color=settings.board_items['color']['piece'][_type])
         self._valid_moves.extend([
             Position(row=2, column=1),
             Position(row=1, column=2)
@@ -100,5 +98,29 @@ class Knight(Piece):
 #############
 class Bishop(Piece):
     def __init__(self, _type: str):
-        super().__init__(symbol=chess_piece[_type]['bishop'], color=settings.board_items['color']['piece'][_type])
+        super().__init__(symbol=settings.board_items['unicode']['piece'][_type]['bishop'], color=settings.board_items['color']['piece'][_type])
         self._valid_moves.extend([Position(row=i, column=i) for i in range(8)])
+
+
+#############
+# Queen
+#############
+class Queen(Piece):
+    def __init__(self, _type: str):
+        super().__init__(symbol=settings.board_items['unicode']['piece'][_type]['queen'], color=settings.board_items['color']['piece'][_type])
+        self._valid_moves.extend([Position(row=r, column=0) for r in range(8)])     # Rows
+        self._valid_moves.extend([Position(row=0, column=c) for c in range(8)])     # Columns
+        self._valid_moves.extend([Position(row=i, column=i) for i in range(8)])     # Diagonal
+
+
+###########
+# King
+###########
+class King(Piece):
+    def __init__(self, _type: str):
+        super().__init__(symbol=settings.board_items['unicode']['piece'][_type]['king'], color=settings.board_items['color']['piece'][_type])
+        self._valid_moves.extend([
+            Position(row=1, column=1),
+            Position(row=0, column=1),
+            Position(row=1, column=0)
+        ])
