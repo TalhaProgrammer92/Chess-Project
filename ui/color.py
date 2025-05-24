@@ -1,5 +1,7 @@
+# * ANSI Codes
 code: dict = {
     'color': {
+        # ? Foreground colors
         'foreground': {
             'bright': {
                 'black': '\033[90m',
@@ -24,6 +26,7 @@ code: dict = {
             }
         },
 
+        # ? Background Colors
         'background': {
             'bright': {
                 'black': '\033[100m',
@@ -49,6 +52,7 @@ code: dict = {
         }
     },
 
+    # ? Styles
     'style': {
         'bold': '\033[1m',
         'dim': '\033[2m',
@@ -59,7 +63,15 @@ code: dict = {
         'hidden': '\033[7m'
     },
 
+    # ? Reset
     'reset': '\033[0m'
 }
 
-ansi = lambda text, fg, bg, style: fg + bg + style + text + code['reset']
+
+# * Function to get ansi encoded string
+def ansi(**kwargs) -> str:
+    fg: str = kwargs.get('fg', '')
+    bg: str = kwargs.get('bg', '')
+    style: str = kwargs.get('style', '')
+    text: str = kwargs.get('text', '')
+    return fg + bg + style + text + code['reset']

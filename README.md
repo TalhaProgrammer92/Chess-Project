@@ -29,7 +29,7 @@ A fully-featured, console-based 2D Chess game built in Python — no GUI, just p
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/YourUsername/console-chess-python.git
+   git clone https://github.com/TalhaProgrammer92/Chess-Project
    cd console-chess-python
    ```
 
@@ -40,23 +40,6 @@ A fully-featured, console-based 2D Chess game built in Python — no GUI, just p
    ```
 
 3. Follow the on-screen prompts to start a new game or load a saved one.
-
-## 🧠 Architecture Overview
-
-* `main.py` – Entry point of the game
-* `board.py` – Handles board rendering and piece placement
-* `pieces/` – Folder containing each piece class (Pawn, Rook, Knight, etc.)
-* `game.py` – Core game logic and turn mechanics
-* `utils.py` – Utility functions like validation, saving/loading, etc.
-* `players.py` – Manages player information and score tracking
-
-## 🏗️ Planned Features
-
-* AI opponent (basic to intermediate difficulty)
-* Undo/redo moves
-* Chess timer per player
-* Replay previous games
-* Highlight legal moves in the console
 
 ## 📜 License
 

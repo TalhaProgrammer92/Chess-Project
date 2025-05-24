@@ -1,17 +1,9 @@
-from UI.color import *
+from pieces.piece import *
 
 if __name__ == '__main__':
-    print(
-        ansi(
-            'Hello,',
-            code['color']['foreground']['bright']['yellow'],
-            code['color']['background']['dark']['white'],
-            code['style']['bold']
-        ),
-        ansi(
-            'World!',
-            code['color']['foreground']['dark']['red'],
-            code['color']['background']['bright']['cyan'],
-            code['style']['italic'] + code['style']['under-line']
-        )
-    )
+    chess_piece: Pawn = Pawn(type='black')
+    print(chess_piece)
+    chess_piece: Knight = chess_piece.promotion('knight')
+    print(chess_piece)
+    chess_piece: Knight = Knight(type='white')
+    print(chess_piece)
