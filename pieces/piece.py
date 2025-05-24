@@ -120,12 +120,6 @@ class Pawn(Piece):
             Position(row=2, column=0)   # Special move - Only once in a game
         ])
         self.__double_move_eligible: bool = True
-        self.__promote: dict = {
-            'queen': Queen(type=self.__type, position=self._position),
-            'bishop': Bishop(type=self.__type, position=self._position),
-            'rook': Rook(type=self.__type, position=self._position),
-            'knight': Knight(type=self.__type, position=self._position)
-        }
 
     # * Method (Override)
     def move(self, destination: Position) -> tuple[str, str]:
@@ -144,8 +138,16 @@ class Pawn(Piece):
         return False
 
     # * Method - Promote to Queen/Bishop/Rook/Knight
+    # def promotion(self, piece: str) -> Queen | Bishop | Rook | Knight:
+    #     return self.__promote[piece]
     def promotion(self, piece: str) -> Queen | Bishop | Rook | Knight:
-        return self.__promote[piece]
+        promote_map = {
+            'queen': lambda: Queen(type=self.__type, position=self._position),
+            'bishop': lambda: Bishop(type=self.__type, position=self._position),
+            'rook': lambda: Rook(type=self.__type, position=self._position),
+            'knight': lambda: Knight(type=self.__type, position=self._position)
+        }
+        return promote_map[piece]()
 
 
 ###########
