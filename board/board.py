@@ -22,6 +22,7 @@ class Cell:
 class Board:
     def __init__(self):
         self.grid: list[list[Cell]] = []
+        self.clear()
 
     # * Method - Clear game board
     def clear(self) -> None:
@@ -33,9 +34,17 @@ class Board:
                     symbol, color = get_empty_cell(Position(row=row, column=column))
                     l.append(Cell(symbol=symbol, property=Property(fg=color)))
                 self.grid.append(l)
+
         # ? If grid is already filled
         else:
             for row in range(8):
                 for column in range(8):
                     symbol, color = get_empty_cell(Position(row=row, column=column))
                     self.grid[row][column] = Cell(symbol=symbol, property=Property(fg=color))
+
+    # * Method - Display the grid
+    def display(self) -> None:
+        for row in range(8):
+            for column in range(8):
+                print(self.grid[row][column], end=' ')
+            print()
