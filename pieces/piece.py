@@ -28,12 +28,23 @@ class Piece:
         return destination - self._position
 
     # * Method - If path is clear
-    def is_clear_path(self, destination: Position) -> bool:
-        # step: Position(
-        #     row=(destination.row - self._position.row) // max(1, abs(destination.row - self._position.row)) if self.position.row != destination.row else 0,
-        #     column=(destination.column - self._position.column) // max(1, abs(destination.column - self._position.column)) if self.position.column != destination.column else 0
-        # )
-        pass
+    def is_clear_path(self, destination: Position, board_grid: list) -> bool:
+        # ? Necessary variables
+        step: Position = self._position.get_step(destination)
+        path: list[Position] = []
+
+        # ? Generate path
+        position: Position = self._position
+        while position != destination:
+            path.append(position)
+            position.row += step.row
+            position.column += step.column
+
+        # ? Check the path
+        for p in path:
+            pass
+
+        return True
 
     # * Method - Check if move is valid
     def is_valid_move(self, destination: Position) -> bool:
