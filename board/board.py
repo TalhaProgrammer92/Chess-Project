@@ -44,7 +44,7 @@ class Board:
             self.set_cell(
                 cell=Cell(
                     symbol=piece.symbol,
-                    property=Property(fg=piece.color)
+                    property=piece.property
                 ),
                 position=piece.position
             )
