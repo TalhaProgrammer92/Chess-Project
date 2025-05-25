@@ -1,6 +1,7 @@
 from pieces.piece import *
 from board.board import Board
 from utils.position import Position
+from pieces.handler import PieceHandler
 
 if __name__ == '__main__':
     # chess_piece: Pawn = Pawn(type='black')
@@ -10,9 +11,9 @@ if __name__ == '__main__':
     # chess_piece: Knight = Knight(type='white')
     # print(chess_piece)
 
+    piece_handle: PieceHandler = PieceHandler()
+    piece_handle.reset()
+
     board: Board = Board()
-    board.place_pieces([
-        Pawn(type='white', position=Position(row=1, column=2)),
-        Pawn(type='white', position=Position(row=1, column=3))
-    ])
+    board.place_pieces(piece_handle.pieces)
     board.display()

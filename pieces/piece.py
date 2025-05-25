@@ -14,6 +14,7 @@ class Piece:
         self.property: Property = kwargs.get('property', Property())
         self._position: Position = kwargs.get('position', Position())
         self._valid_moves: list[Position] = []
+        self.alive: bool = False
 
     # * Getters
     @property
@@ -162,10 +163,9 @@ class Pawn(Piece):
         return self._type
 
     # * Method (Override)
-    def move(self, destination: Position) -> tuple[str, str]:
+    def move(self, destination: Position) -> None:
         self._position = destination
         self.__double_move_eligible = False
-        return get_empty_cell(self._position)
 
     # * Method (Override)
     def is_valid_move(self, destination: Position) -> bool:

@@ -41,16 +41,17 @@ class Board:
 
     # * Method - Place pieces
     def place_pieces(self, pieces: list) -> None:
-        for index in range(len(pieces)):
-            piece = pieces[index]
-            self.set_cell(
-                cell=Cell(
-                    symbol=piece.symbol,
-                    property=piece.property,
-                    piece_index=index
-                ),
-                position=piece.position,
-            )
+        for _type in pieces:
+            for index in range(len(_type)):
+                piece = _type[index]
+                self.set_cell(
+                    cell=Cell(
+                        symbol=piece.symbol,
+                        property=piece.property,
+                        piece_index=index
+                    ),
+                    position=piece.position,
+                )
 
     # * Method - Clear game board
     def clear(self) -> None:
