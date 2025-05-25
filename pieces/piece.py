@@ -75,6 +75,11 @@ class Rook(Piece):
 
         self._valid_moves.extend([Position(row=r, column=0) for r in range(8)])     # Rows
         self._valid_moves.extend([Position(row=0, column=c) for c in range(8)])     # Columns
+        self.__score_points: int = 5
+
+    @property
+    def score_points(self) -> int:
+        return self.__score_points
 
     @property
     def type(self) -> str:
@@ -96,6 +101,11 @@ class Knight(Piece):
             Position(row=2, column=1),
             Position(row=1, column=2)
         ])
+        self.__score_points: int = 3
+
+    @property
+    def score_points(self) -> int:
+        return self.__score_points
 
     @property
     def type(self) -> str:
@@ -114,6 +124,11 @@ class Bishop(Piece):
             position=kwargs.get('position', Position()))
 
         self._valid_moves.extend([Position(row=i, column=i) for i in range(8)])
+        self.__score_points: int = 3
+
+    @property
+    def score_points(self) -> int:
+        return self.__score_points
 
     @property
     def type(self) -> str:
@@ -134,6 +149,11 @@ class Queen(Piece):
         self._valid_moves.extend([Position(row=r, column=0) for r in range(8)])     # Rows
         self._valid_moves.extend([Position(row=0, column=c) for c in range(8)])     # Columns
         self._valid_moves.extend([Position(row=i, column=i) for i in range(8)])     # Diagonal
+        self.__score_points: int = 9
+
+    @property
+    def score_points(self) -> int:
+        return self.__score_points
 
     @property
     def type(self) -> str:
@@ -157,6 +177,11 @@ class Pawn(Piece):
             Position(row=2, column=0)   # Special move - Only once in a game
         ])
         self.__double_move_eligible: bool = True
+        self.__score_points: int = 1
+
+    @property
+    def score_points(self) -> int:
+        return self.__score_points
 
     @property
     def type(self) -> str:
@@ -204,6 +229,11 @@ class King(Piece):
             Position(row=0, column=1),
             Position(row=1, column=0)
         ])
+        self.__score_points: int = 200
+
+    @property
+    def score_points(self) -> int:
+        return self.__score_points
 
     @property
     def type(self) -> str:

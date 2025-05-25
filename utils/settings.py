@@ -78,3 +78,10 @@ board_items: dict = {
         }
     }
 }
+
+player: dict = {
+    'color': {
+        'name': code['color']['foreground']['bright']['green'],
+        'score': code['color']['foreground']['bright']['magenta']
+    }
+}
