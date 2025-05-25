@@ -23,6 +23,10 @@ class Piece:
     def position(self) -> Position:
         return self._position
 
+    @property
+    def color(self) -> str:
+        return self._color
+
     # * Method - Check displacement
     def displacement(self, destination: Position) -> Position:
         return destination - self._position

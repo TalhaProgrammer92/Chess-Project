@@ -2,6 +2,7 @@ from ui.color import ansi, code
 from ui.text import Property
 from board.misc import get_empty_cell
 from utils.position import Position
+from utils.settings import board_items
 
 
 #####################################################
@@ -37,6 +38,17 @@ class Board:
         symbol, color = get_empty_cell(position)
         self.__grid[position.row][position.column] = Cell(symbol=symbol, color=color)
 
+    # * Method - Place pieces
+    def place_pieces(self, pieces: list) -> None:
+        for piece in pieces:
+            self.set_cell(
+                cell=Cell(
+                    symbol=piece.symbol,
+                    property=Property(fg=piece.color)
+                ),
+                position=piece.position
+            )
+
     # * Method - Clear game board
     def clear(self) -> None:
         # ? If grid is empty
@@ -57,18 +69,18 @@ class Board:
 
     # * Method - Display the grid
     def display(self) -> None:
-        color: str = code['color']['foreground']['bright']['yellow']
+        color: str = board_items['color']['label']
 
         # ? Column - numbers
-        print(' ' * 3, end='')
+        print(' ' * 2, end='')
         for i in range(8):
-            num: str = ansi(text='abcdefgh'[i], fg=color)
-            print(num, end=' ')
+            num: str = ansi(text=board_items['unicode']['label']['column'][i + 1], fg=color)
+            print(num, end=' ' if i < 7 else '')
         print()
 
         # ? Cells
         for row in range(8):
-            print(ansi(text=str(row+1), fg=color), '|', end='') # ? Row - numbers
+            print(ansi(text=board_items['unicode']['label']['row'][row + 1], fg=color), end=' ')    # ? Row - numbers
             for column in range(8):
-                print(self.__grid[row][column], end='|')
+                print(self.__grid[row][column], end=' ')
             print()

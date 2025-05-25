@@ -1,5 +1,6 @@
-# from pieces.piece import *
+from pieces.piece import *
 from board.board import Board
+from utils.position import Position
 
 if __name__ == '__main__':
     # chess_piece: Pawn = Pawn(type='black')
@@ -10,4 +11,8 @@ if __name__ == '__main__':
     # print(chess_piece)
 
     board: Board = Board()
+    board.place_pieces([
+        Pawn(type='white', position=Position(row=1, column=2)),
+        Pawn(type='white', position=Position(row=1, column=3))
+    ])
     board.display()

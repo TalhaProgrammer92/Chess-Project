@@ -13,7 +13,10 @@ board_items: dict = {
         'piece': {
             'white': code['color']['foreground']['bright']['cyan'],
             'black': code['color']['foreground']['bright']['red']
-        }
+        },
+
+        # ? Label
+        'label': code['color']['foreground']['bright']['yellow']
     },
 
     # * Unicodes
@@ -44,6 +47,33 @@ board_items: dict = {
                 'bishop': '♝',
                 'knight': '♞',
                 'pawn': '♟'
+            }
+        },
+
+        # ? Labels
+        'label': {
+            # ? Rows
+            'row': {
+                1: 'ⓐ',
+                2: 'ⓑ',
+                3: 'ⓒ',
+                4: 'ⓓ',
+                5: 'ⓔ',
+                6: 'ⓕ',
+                7: 'ⓖ',
+                8: 'ⓗ'
+            },
+
+            # ? Columns
+            'column': {
+                1: '①',
+                2: '②',
+                3: '③',
+                4: '④',
+                5: '⑤',
+                6: '⑥',
+                7: '⑦',
+                8: '⑧'
             }
         }
     }
