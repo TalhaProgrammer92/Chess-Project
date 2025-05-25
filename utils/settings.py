@@ -47,5 +47,4 @@ board_items: dict = {
             }
         }
     }
-
 }
