@@ -1,4 +1,5 @@
 from ui.color import ansi
+from ui.text import Property
 from utils.position import *
 from board.misc import get_empty_cell
 import utils.settings as settings
@@ -10,7 +11,7 @@ import utils.settings as settings
 class Piece:
     def __init__(self, **kwargs):
         self._symbol: str = kwargs.get('symbol', '')
-        self._color: str = kwargs.get('color', '')
+        self.property: Property = kwargs.get('property', Property())
         self._position: Position = kwargs.get('position', Position())
         self._valid_moves: list[Position] = []
 
@@ -22,10 +23,6 @@ class Piece:
     @property
     def position(self) -> Position:
         return self._position
-
-    @property
-    def color(self) -> str:
-        return self._color
 
     # * Method - Check displacement
     def displacement(self, destination: Position) -> Position:
@@ -61,7 +58,7 @@ class Piece:
 
     # * Method - Representation
     def __repr__(self) -> str:
-        return ansi(fg=self._color, text=self._symbol)
+        return ansi(fg=self.property.fg, bg=self.property.bg, style=self.property.style, text=self._symbol)
 
 
 ###########
@@ -69,14 +66,18 @@ class Piece:
 ###########
 class Rook(Piece):
     def __init__(self, **kwargs):
-        self.__type = kwargs.get('type', '')
+        self._type = kwargs.get('type', '')
         super().__init__(
-            symbol=settings.board_items['unicode']['piece'][self.__type]['rook'],
-            color=settings.board_items['color']['piece'][self.__type],
+            symbol=settings.board_items['unicode']['piece'][self._type]['rook'],
+            property=Property(fg=settings.board_items['color']['piece'][self._type]),
             position=kwargs.get('position', Position()))
 
         self._valid_moves.extend([Position(row=r, column=0) for r in range(8)])     # Rows
         self._valid_moves.extend([Position(row=0, column=c) for c in range(8)])     # Columns
+
+    @property
+    def type(self) -> str:
+        return self._type
 
 
 #############
@@ -84,10 +85,10 @@ class Rook(Piece):
 #############
 class Knight(Piece):
     def __init__(self, **kwargs):
-        self.__type = kwargs.get('type', '')
+        self._type = kwargs.get('type', '')
         super().__init__(
-            symbol=settings.board_items['unicode']['piece'][self.__type]['knight'],
-            color=settings.board_items['color']['piece'][self.__type],
+            symbol=settings.board_items['unicode']['piece'][self._type]['knight'],
+            property=Property(fg=settings.board_items['color']['piece'][self._type]),
             position=kwargs.get('position', Position()))
 
         self._valid_moves.extend([
@@ -95,19 +96,27 @@ class Knight(Piece):
             Position(row=1, column=2)
         ])
 
+    @property
+    def type(self) -> str:
+        return self._type
+
 
 #############
 # Bishop
 #############
 class Bishop(Piece):
     def __init__(self, **kwargs):
-        self.__type = kwargs.get('type', '')
+        self._type = kwargs.get('type', '')
         super().__init__(
-            symbol=settings.board_items['unicode']['piece'][self.__type]['bishop'],
-            color=settings.board_items['color']['piece'][self.__type],
+            symbol=settings.board_items['unicode']['piece'][self._type]['bishop'],
+            property=Property(fg=settings.board_items['color']['piece'][self._type]),
             position=kwargs.get('position', Position()))
 
         self._valid_moves.extend([Position(row=i, column=i) for i in range(8)])
+
+    @property
+    def type(self) -> str:
+        return self._type
 
 
 #############
@@ -115,15 +124,19 @@ class Bishop(Piece):
 #############
 class Queen(Piece):
     def __init__(self, **kwargs):
-        self.__type = kwargs.get('type', '')
+        self._type = kwargs.get('type', '')
         super().__init__(
-            symbol=settings.board_items['unicode']['piece'][self.__type]['queen'],
-            color=settings.board_items['color']['piece'][self.__type],
+            symbol=settings.board_items['unicode']['piece'][self._type]['queen'],
+            property=Property(fg=settings.board_items['color']['piece'][self._type]),
             position=kwargs.get('position', Position()))
 
         self._valid_moves.extend([Position(row=r, column=0) for r in range(8)])     # Rows
         self._valid_moves.extend([Position(row=0, column=c) for c in range(8)])     # Columns
         self._valid_moves.extend([Position(row=i, column=i) for i in range(8)])     # Diagonal
+
+    @property
+    def type(self) -> str:
+        return self._type
 
 
 ###########
@@ -131,10 +144,10 @@ class Queen(Piece):
 ###########
 class Pawn(Piece):
     def __init__(self, **kwargs):
-        self.__type: str = kwargs.get('type', '')
+        self._type: str = kwargs.get('type', '')
         super().__init__(
-            symbol=settings.board_items['unicode']['piece'][self.__type]['pawn'],
-            color=settings.board_items['color']['piece'][self.__type],
+            symbol=settings.board_items['unicode']['piece'][self._type]['pawn'],
+            property=Property(fg=settings.board_items['color']['piece'][self._type]),
             position=kwargs.get('position', Position()))
 
         self._valid_moves.extend([
@@ -143,6 +156,10 @@ class Pawn(Piece):
             Position(row=2, column=0)   # Special move - Only once in a game
         ])
         self.__double_move_eligible: bool = True
+
+    @property
+    def type(self) -> str:
+        return self._type
 
     # * Method (Override)
     def move(self, destination: Position) -> tuple[str, str]:
@@ -162,23 +179,32 @@ class Pawn(Piece):
 
     # * Method - Promote to Queen/Bishop/Rook/Knight
     def promotion(self, piece: str) -> Queen | Bishop | Rook | Knight:
-        promote_map = {
-            'queen': lambda: Queen(type=self.__type, position=self._position),
-            'bishop': lambda: Bishop(type=self.__type, position=self._position),
-            'rook': lambda: Rook(type=self.__type, position=self._position),
-            'knight': lambda: Knight(type=self.__type, position=self._position)
+        promote = {
+            'queen': lambda: Queen(type=self._type, position=self._position),
+            'bishop': lambda: Bishop(type=self._type, position=self._position),
+            'rook': lambda: Rook(type=self._type, position=self._position),
+            'knight': lambda: Knight(type=self._type, position=self._position)
         }
-        return promote_map[piece]()
+        return promote[piece]()
 
 
 ###########
 # King
 ###########
 class King(Piece):
-    def __init__(self, _type: str):
-        super().__init__(symbol=settings.board_items['unicode']['piece'][_type]['king'], color=settings.board_items['color']['piece'][_type])
+    def __init__(self, **kwargs):
+        self._type = kwargs.get('type', '')
+        super().__init__(
+            symbol=settings.board_items['unicode']['piece'][self._type]['king'],
+            property=Property(fg=settings.board_items['color']['piece'][self._type]),
+            position=kwargs.get('position', Position()))
+
         self._valid_moves.extend([
             Position(row=1, column=1),
             Position(row=0, column=1),
             Position(row=1, column=0)
         ])
+
+    @property
+    def type(self) -> str:
+        return self._type
