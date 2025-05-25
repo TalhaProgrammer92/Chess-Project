@@ -12,6 +12,7 @@ class Cell:
     def __init__(self, **kwargs):
         self.symbol: str = kwargs.get('symbol', '')
         self.property: Property = kwargs.get('property', Property())
+        self.piece_index: int = kwargs.get('piece_index', -1)
 
     def __repr__(self) -> str:
         return ansi(text=self.symbol, fg=self.property.fg, bg=self.property.bg, style=self.property.style)
@@ -40,13 +41,15 @@ class Board:
 
     # * Method - Place pieces
     def place_pieces(self, pieces: list) -> None:
-        for piece in pieces:
+        for index in range(len(pieces)):
+            piece = pieces[index]
             self.set_cell(
                 cell=Cell(
                     symbol=piece.symbol,
-                    property=piece.property
+                    property=piece.property,
+                    piece_index=index
                 ),
-                position=piece.position
+                position=piece.position,
             )
 
     # * Method - Clear game board
