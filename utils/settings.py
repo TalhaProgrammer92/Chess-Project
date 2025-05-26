@@ -89,9 +89,14 @@ player: dict = {
 
 __property: dict = {
     'error': Property(
-                fg=code['color']['foreground']['bright']['red'],
-                style=code['style']['bold'] + code['style']['italic']
-            )
+        fg=code['color']['foreground']['bright']['red'],
+        style=code['style']['bold'] + code['style']['italic']
+    ),
+
+    'warning': Property(
+        fg=code['color']['foreground']['dark']['yellow'],
+        style=code['style']['italic']
+    )
 }
 
 message: dict = {
@@ -109,6 +114,23 @@ message: dict = {
         'wrong-entry': Text(
             text='Incorrect number entry!',
             property=__property['error']
+        ),
+
+        'no-load-game-found': Text(
+            text='No game found!',
+            property=__property['error']
+        )
+    },
+
+    'warning': {
+        'name-already-exist': Text(
+            text='Name already exists! Do you want to proceed(Y/N)? ',
+            property=__property['warning']
+        ),
+
+        'king-in-check': Text(
+            text='Your king is in check! Do you want to proceed(Y/N)? ',
+            property=__property['warning']
         )
     }
 }

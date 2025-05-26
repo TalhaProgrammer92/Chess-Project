@@ -19,6 +19,10 @@ class Player:
     def increment_score(self, score_points: int) -> None:
         self.__score += score_points
 
+    # * Method - Reset Score
+    def reset_score(self) -> None:
+        self.__score = 0
+
     # * Method - Representation
     def __repr__(self) -> str:
         return f'Name:\t{self.__name}\nScore:\t{self.score}'
