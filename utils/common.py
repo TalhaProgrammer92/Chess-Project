@@ -62,6 +62,7 @@ class Cell:
         self.symbol: str = kwargs.get('symbol', '')
         self.property: Property = kwargs.get('property', Property())
         self.piece_index: int = kwargs.get('piece_index', -1)
+        self.type_index: int = kwargs.get('type_index', -1)
 
     def __repr__(self) -> str:
         return ansi(text=self.symbol, fg=self.property.fg, bg=self.property.bg, style=self.property.style)

@@ -18,24 +18,27 @@ class Board:
         return self.__grid[position.row][position.column]
 
     # * Method - Set cell
-    def set_cell(self, cell: Cell, position: Position) -> None:
+    def set_cell(self, **kwargs) -> None:
+        position: Position = kwargs.get('position', Position())
+        cell: Cell = kwargs.get('cell', Cell())
+
         self.__grid[position.row][position.column] = cell
 
     # * Method - Reset cell (Empty)
     def reset_cell(self, position: Position) -> None:
-        symbol, color = get_empty_cell(position)
-        self.__grid[position.row][position.column] = Cell(symbol=symbol, color=color)
+        self.__grid[position.row][position.column] = get_empty_cell(position)
 
     # * Method - Place pieces
     def place_pieces(self, pieces: list) -> None:
-        for _type in pieces:
-            for index in range(len(_type)):
-                piece = _type[index]
+        for t in range(len(pieces)):
+            for index in range(len(pieces[t])):
+                piece = pieces[t][index]
                 self.set_cell(
                     cell=Cell(
                         symbol=piece.symbol,
                         property=piece.property,
-                        piece_index=index
+                        piece_index=index,
+                        type_index=t
                     ),
                     position=piece.position,
                 )
