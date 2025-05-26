@@ -1,4 +1,5 @@
 from ui.color import code
+from ui.text import *
 
 board_items: dict = {
     # * Colors
@@ -83,5 +84,31 @@ player: dict = {
     'color': {
         'name': code['color']['foreground']['bright']['green'],
         'score': code['color']['foreground']['bright']['magenta']
+    }
+}
+
+__property: dict = {
+    'error': Property(
+                fg=code['color']['foreground']['bright']['red'],
+                style=code['style']['bold'] + code['style']['italic']
+            )
+}
+
+message: dict = {
+    'error': {
+        'wrong-position': Text(
+            text='Incorrect position!',
+            property=__property['error']
+        ),
+
+        'empty-name': Text(
+            text='Name cannot be empty!',
+            property=__property['error']
+        ),
+
+        'wrong-entry': Text(
+            text='Incorrect number entry!',
+            property=__property['error']
+        )
     }
 }
