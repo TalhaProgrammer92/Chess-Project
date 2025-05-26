@@ -1,3 +1,10 @@
+from ui.color import ansi
+from ui.text import Property
+
+
+################################################
+# Position - Holds position of chess models
+################################################
 class Position:
     def __init__(self, **kwargs):
         self.__row: int = kwargs.get('row', 0)
@@ -45,3 +52,16 @@ class Position:
     # * Method - Representation
     def __repr__(self) -> str:
         return f'({self.__row}, {self.__column})'
+
+
+#####################################################
+# Cell class - Hold cell properties of the board
+#####################################################
+class Cell:
+    def __init__(self, **kwargs):
+        self.symbol: str = kwargs.get('symbol', '')
+        self.property: Property = kwargs.get('property', Property())
+        self.piece_index: int = kwargs.get('piece_index', -1)
+
+    def __repr__(self) -> str:
+        return ansi(text=self.symbol, fg=self.property.fg, bg=self.property.bg, style=self.property.style)

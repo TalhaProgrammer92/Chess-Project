@@ -1,21 +1,8 @@
 from ui.color import ansi, code
 from ui.text import Property
 from board.misc import get_empty_cell
-from utils.position import Position
+from utils.common import *
 from utils.settings import board_items
-
-
-#####################################################
-# Cell class - Hold cell properties of the board
-#####################################################
-class Cell:
-    def __init__(self, **kwargs):
-        self.symbol: str = kwargs.get('symbol', '')
-        self.property: Property = kwargs.get('property', Property())
-        self.piece_index: int = kwargs.get('piece_index', -1)
-
-    def __repr__(self) -> str:
-        return ansi(text=self.symbol, fg=self.property.fg, bg=self.property.bg, style=self.property.style)
 
 
 ######################################
@@ -60,16 +47,14 @@ class Board:
             for row in range(8):
                 l: list[Cell] = []
                 for column in range(8):
-                    symbol, color = get_empty_cell(Position(row=row, column=column))
-                    l.append(Cell(symbol=symbol, property=Property(fg=color)))
+                    l.append(get_empty_cell(Position(row=row, column=column)))
                 self.__grid.append(l)
 
         # ? If grid is already filled
         else:
             for row in range(8):
                 for column in range(8):
-                    symbol, color = get_empty_cell(Position(row=row, column=column))
-                    self.__grid[row][column] = Cell(symbol=symbol, property=Property(fg=color))
+                    self.__grid[row][column] = get_empty_cell(Position(row=row, column=column))
 
     # * Method - Display the grid
     def display(self) -> None:

@@ -1,6 +1,6 @@
 from ui.color import ansi
 from ui.text import Property
-from utils.position import *
+from utils.common import *
 from board.misc import get_empty_cell
 import utils.settings as settings
 
