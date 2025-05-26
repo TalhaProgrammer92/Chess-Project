@@ -61,18 +61,32 @@ class PieceHandler:
     def reset(self) -> None:
         # ? Pawns
         for i in range(8):
-            self.pieces[0][i].move(Position(row=6, column=i))
-            self.pieces[1][i].move(Position(row=1, column=i))
+            self.pieces[0][i].move(Position(row=6, column=i))  # White
+            self.pieces[1][i].move(Position(row=1, column=i))  # Black
 
-        # ? Rooks - Bishops - Knights - Queen - King
-        index: list = [0, 6]
-        for j in range(4):
-            for i in range(2):
-                piece_index: list = [
-                    i + j + (8 if j == 0 else 1),
-                    i + j + (8 if j == 0 else 1)
-                ]
-                self.pieces[0][piece_index[0]].move(Position(row=7, column=index[i]))
-                self.pieces[1][piece_index[1]].move(Position(row=0, column=index[i]))
-            index[0] += 1
-            index[1] -= 1
+        # ? Rooks
+        self.pieces[0][8].move(Position(row=7, column=0))
+        self.pieces[0][9].move(Position(row=7, column=7))
+        self.pieces[1][8].move(Position(row=0, column=0))
+        self.pieces[1][9].move(Position(row=0, column=7))
+
+        # ? Bishops
+        self.pieces[0][10].move(Position(row=7, column=1))
+        self.pieces[0][11].move(Position(row=7, column=6))
+        self.pieces[1][10].move(Position(row=0, column=1))
+        self.pieces[1][11].move(Position(row=0, column=6))
+
+        # ? Knights
+        self.pieces[0][12].move(Position(row=7, column=2))
+        self.pieces[0][13].move(Position(row=7, column=5))
+        self.pieces[1][12].move(Position(row=0, column=2))
+        self.pieces[1][13].move(Position(row=0, column=5))
+
+        # ? Queens
+        self.pieces[0][14].move(Position(row=7, column=3))
+        self.pieces[1][14].move(Position(row=0, column=3))
+
+        # ? Kings
+        self.pieces[0][15].move(Position(row=7, column=4))
+        self.pieces[1][15].move(Position(row=0, column=4))
+
