@@ -4,7 +4,8 @@
 class Player:
     def __init__(self, **kwargs):
         self.__name: str = kwargs.get('name', 'unknown')
-        self.__score: int = 0
+        self.__score: int = kwargs.get('score', 0)
+        self.__group: str = kwargs.get('group', 'unknown')
 
     # * Getters
     @property
@@ -14,6 +15,10 @@ class Player:
     @property
     def score(self) -> int:
         return self.__score
+
+    @property
+    def group(self) -> str:
+        return self.__group
 
     # * Method - Increase score
     def increment_score(self, score_points: int) -> None:

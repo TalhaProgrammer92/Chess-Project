@@ -3,6 +3,7 @@ from pieces.piece import *
 from pieces.handler import *
 from player.player import *
 from utils.common import *
+from logic.misc import *
 from ui.text import *
 import utils.settings as settings
 
@@ -43,9 +44,19 @@ class Game:
 
             # ? Display turn message
             print()
-            print(
-                settings.message['highlight']['player-turn'],
-                Text(text=self.players[self.turn].name, property=settings.property['player-name'])
+            display_turn(self.players[self.turn])
+
+            # ? Get selected piece location
+            location: Position = parse_labeled_position(
+                take_input(
+                    Text(
+                        text='Select piece: ',
+                        property=settings.property['piece-position']
+                    ),
+                    [
+                        f'{settings.board_items['unicode']['label']['row'][i + 1]}{settings.board_items['unicode']['label']['column'][i + 1]}'
+                        for i in range(8)]
+                )
             )
 
             # ? Hold Screen

@@ -21,8 +21,8 @@ if __name__ == '__main__':
     # )
 
     players: list[Player] = [
-        Player(name='Talha Ahmad'),
-        Player(name='Rayan Zulfiqar')
+        Player(name='Talha Ahmad', group='white'),
+        Player(name='Rayan Zulfiqar', group='black')
     ]
 
     game: Game = Game(board=board, piece_handler=ph, players=players)

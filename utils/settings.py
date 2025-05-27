@@ -97,16 +97,22 @@ property: dict = {
         fg=code['color']['foreground']['dark']['yellow'],
         style=code['style']['italic']
     ),
-	
+
     'highlight': Property(
-		fg=code['color']['foreground']['bright']['green'],
-		bg=code['color']['background']['dark']['cyan'],
-		style=code['style']['bold']
+        fg=code['color']['foreground']['bright']['green'],
+        bg=code['color']['background']['dark']['black'],
+        style=code['style']['bold']
     ),
-	
+
     'player-name': Property(
-		fg=code['color']['foreground']['dark']['magenta'],
-		style=code['style']['under-line']
+        fg=code['color']['foreground']['dark']['magenta'],
+        style=code['style']['under-line']
+    ),
+
+    'piece-position': Property(
+        fg=code['color']['foreground']['dark']['magenta'],
+        bg=code['color']['background']['bright']['black'],
+        style=code['style']['italic']
     )
 }
 
@@ -144,11 +150,11 @@ message: dict = {
             property=property['warning']
         )
     },
-	
+
     'highlight': {
-		'player-turn': Text(
-			text='The turn of ',
-			property=property['highlight']
+        'player-turn': Text(
+            text='The turn of ',
+            property=property['highlight']
         )
     }
 }
