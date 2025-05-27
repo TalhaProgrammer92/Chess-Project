@@ -1,5 +1,5 @@
 from ui.color import ansi
-from ui.text import Property
+from ui.text import *
 
 
 ################################################
@@ -69,5 +69,16 @@ class Cell:
 
 
 # * Function - Hold Screen
-def hold(message: str = '') -> None:
+def hold(message: Text = Text()) -> None:
     a = input(message)
+
+
+# * Function - Get allowed input for position on board
+def get_position_labels() -> list[str]:
+    labels = []
+
+    for row in 'abcdefgh':
+        for column in '123456789':
+            labels.append(row + column)
+
+    return labels

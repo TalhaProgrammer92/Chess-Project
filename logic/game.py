@@ -49,19 +49,17 @@ class Game:
             # ? Get selected piece location
             location: Position = parse_labeled_position(
                 take_input(
-                    Text(
+                    message=Text(
                         text='Select piece: ',
                         property=settings.property['piece-position']
                     ),
-                    [
-                        f'{settings.board_items['unicode']['label']['row'][i + 1]}{settings.board_items['unicode']['label']['column'][i + 1]}'
-                        for i in range(8)]
+                    range=get_position_labels()
                 )
             )
             print(location)
 
             # ? Hold Screen
-            hold()
+            # hold()
 
             # ? Update state
             self.update()

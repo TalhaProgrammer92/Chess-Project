@@ -26,6 +26,6 @@ def parse_labeled_position(position: str) -> Position:
     r, c = 'abcdefgh', '123456789'
     position: Position = Position(
         row=r.find(position[0]),
-        column=r.find(position[1])
+        column=c.find(position[1])
     )
     return position
