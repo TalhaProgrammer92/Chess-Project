@@ -58,6 +58,7 @@ class Game:
                         for i in range(8)]
                 )
             )
+            print(location)
 
             # ? Hold Screen
             hold()
