@@ -1,5 +1,6 @@
 from ui.color import ansi
 from ui.text import *
+from os import system
 
 
 ################################################
@@ -82,3 +83,8 @@ def get_position_labels() -> list[str]:
             labels.append(row + column)
 
     return labels
+
+
+# * Function - Clear Screen
+def clrscr():
+    system('cls');

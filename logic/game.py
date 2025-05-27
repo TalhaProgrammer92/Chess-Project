@@ -39,6 +39,10 @@ class Game:
     # * Method - Start the game
     def start_game(self) -> None:
         while not self.game_over:
+            # ? Clear Screen
+            # clrscr()
+            # print()
+            
             # ? Display board
             self.board.display()
 
