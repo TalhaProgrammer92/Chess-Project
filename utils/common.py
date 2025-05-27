@@ -66,3 +66,8 @@ class Cell:
 
     def __repr__(self) -> str:
         return ansi(text=self.symbol, fg=self.property.fg, bg=self.property.bg, style=self.property.style)
+
+
+# * Function - Hold Screen
+def hold(message: str = '') -> None:
+    a = input(message)

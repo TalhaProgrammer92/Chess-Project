@@ -1,5 +1,7 @@
 from board.board import Board
 from pieces.handler import PieceHandler
+from logic.game import *
+from player.player import *
 import utils.settings as settings
 
 if __name__ == '__main__':
@@ -7,13 +9,21 @@ if __name__ == '__main__':
     ph: PieceHandler = PieceHandler()
     ph.reset()
 
-    board.place_pieces(ph.pieces)
-    board.display()
+    # board.place_pieces(ph.pieces)
+    # board.display()
 
-    print(
-        '',
-        settings.message['error']['wrong-position'],
-        settings.message['error']['empty-name'],
-        settings.message['error']['wrong-entry'],
-        sep='\n'
-    )
+    # print(
+    #     '',
+    #     settings.message['error']['wrong-position'],
+    #     settings.message['error']['empty-name'],
+    #     settings.message['error']['wrong-entry'],
+    #     sep='\n'
+    # )
+
+    players: list[Player] = [
+        Player(name='Talha Ahmad'),
+        Player(name='Rayan Zulfiqar')
+    ]
+
+    game: Game = Game(board=board, piece_handler=ph, players=players)
+    game.start_game()
