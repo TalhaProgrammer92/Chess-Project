@@ -13,14 +13,26 @@ class Reader:
 		self.__reader = csv.reader(self.__f, delimiter=kwargs.get('delimiter', ','))
 	
 	@property
-	def data(self) -> tuple[list[str]]:
-		return tuple(self.__reader)
+	def data(self) -> list[list[str]]:
+		return list(self.__reader)
 
 	def __repr__(self) -> str:
 		return join(self.__path, self.__file)
+	
+
+########################
+# Write to csv file
+########################
+class Writer:
+	def __init__(self):
+		pass
 
 
 # * Testing
 if '__main__' == __name__:
 	reader: Reader = Reader(path='data', file='file')
-	print(reader.data)
+	
+	# ! Display data
+	# print(reader.data)
+	for row in reader.data:
+		print('|'.join(row))
