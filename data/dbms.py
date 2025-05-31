@@ -13,8 +13,8 @@ class Reader:
 		self.__reader = csv.reader(self.__f, delimiter=kwargs.get('delimiter', ','))
 	
 	@property
-	def data_list(self) -> list:
-		return list(self.__reader)
+	def data(self) -> tuple[list[str]]:
+		return tuple(self.__reader)
 
 	def __repr__(self) -> str:
 		return join(self.__path, self.__file)
@@ -23,4 +23,4 @@ class Reader:
 # * Testing
 if '__main__' == __name__:
 	reader: Reader = Reader(path='data', file='file')
-	print(reader.data_list)
+	print(reader.data)
