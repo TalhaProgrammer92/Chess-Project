@@ -1,4 +1,6 @@
 import csv
 
 # * Read a csv file
-pass
+with open('file.csv', 'r') as file:
+	reader = csv.reader(file, delimiter=',')
+	
