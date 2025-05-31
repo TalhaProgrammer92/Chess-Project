@@ -12,10 +12,12 @@ class Reader:
 		self.__f = open(join(self.__path, self.__file), 'r')
 		self.__reader = csv.reader(self.__f, delimiter=kwargs.get('delimiter', ','))
 	
+	# * Getter - CSV Data
 	@property
 	def data(self) -> list[list[str]]:
 		return list(self.__reader)
 
+	# * Method - Representation
 	def __repr__(self) -> str:
 		return join(self.__path, self.__file)
 	
@@ -24,8 +26,15 @@ class Reader:
 # Write to csv file
 ########################
 class Writer:
-	def __init__(self):
-		pass
+	def __init__(self, **kwargs):
+		self.__path: str = kwargs.get('path', '')
+		self.__file: str = kwargs.get('file', '') + '.csv'
+		self.__f = open(join(self.__path, self.__file), 'r')
+		self.__writer = csv.writer(self.__f, delimiter=kwargs.get('delimiter', ','))
+	
+	# * Method - Representation
+	def __repr__(self) -> str:
+		return join(self.__path, self.__file)
 
 
 # * Testing
