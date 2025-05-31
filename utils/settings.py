@@ -1,6 +1,46 @@
 from ui.color import code
 from ui.text import *
 
+unicode_map: dict = {
+	'piece': {
+		# * char -> unicode
+		'k': '♔',
+        'q': '♕',
+        'r': '♖',
+        'b': '♗',
+        'n': '♘',
+        'p': '♙',
+		
+        'K': '♚',
+        'Q': '♛',
+        'R': '♜',
+        'B': '♝',
+        'N': '♞',
+        'P': '♟',
+		
+        'W': '○',
+        'L': '◉',
+		
+        # * unicode -> char
+		'♔': 'k',
+        '♕': 'q',
+        '♖': 'r',
+        '♗': 'b',
+        '♘': 'n',
+        '♙': 'p',
+		
+        '♚': 'K',
+        '♛': 'Q',
+        '♜': 'R',
+        '♝': 'B',
+        '♞': 'N',
+        '♟': 'P',
+		
+        '○': 'W',
+        '◉': 'L'
+    }
+}
+
 board_items: dict = {
     # * Colors
     'color': {

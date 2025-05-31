@@ -5,6 +5,7 @@ from player.player import *
 from utils.common import *
 from logic.misc import *
 from ui.text import *
+import data.csv_handler as csv
 import utils.settings as settings
 
 
@@ -61,6 +62,21 @@ class Game:
                 )
             )
             print(location)
+
+            # ? Save Data - Test
+            # csv_writer = csv.Writer(path='data/save-01', file='board.csv')
+            # data = []
+            # for row in range(8):
+            #     for column in range(8):
+            #         data.append([
+            #             row, column,
+            #             settings.unicode_map['piece'][self.board.get_cell(Position(row=row, column=column)).symbol]
+            #         ])
+
+            # csv_writer.write_rows(data)
+
+            # csv_writer.close()
+            # print("Successfully saved board data!")
 
             # ? Hold Screen
             # hold()

@@ -1,5 +1,6 @@
 import csv
-from os.path import join
+from os.path import join, exists
+from os import mkdir
 
 
 ######################
@@ -32,6 +33,9 @@ class Reader:
 class Writer:
 	def __init__(self, **kwargs):
 		self.__path: str = kwargs.get('path', '')
+		if not exists(self.__path):
+			mkdir(self.__path)
+
 		self.__file: str = kwargs.get('file', '') + '.csv'
 		self.__mode: str = kwargs.get('mode', 'w')	# ! Can only be either 'w' or 'a'
 		self.__f = open(join(self.__path, self.__file), self.__mode)
