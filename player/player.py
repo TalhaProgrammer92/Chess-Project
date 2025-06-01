@@ -19,6 +19,22 @@ class Player:
     @property
     def group(self) -> str:
         return self.__group
+    
+    @property
+    def header(self) -> list[str]:
+        return [
+            'name',
+            'score',
+            'group'
+        ]
+    
+    @property
+    def data(self) -> list[str]:
+        return [
+            self.name,
+            self.score,
+            self.group
+        ]
 
     # * Method - Increase score
     def increment_score(self, score_points: int) -> None:
