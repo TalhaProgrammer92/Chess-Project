@@ -1,6 +1,7 @@
 import csv
 from os.path import join, exists
 from os import mkdir
+from logic.game import Game
 
 
 ######################
@@ -58,3 +59,31 @@ class Writer:
 	# * Method - Representation
 	def __repr__(self) -> str:
 		return join(self.__path, self.__file) + f' - {self.__mode}'
+
+
+# * Function - Save a game
+def save_game(game: Game, slot_name: str) -> None:
+    path: str = f'data/{slot_name}'
+    
+    # ? Save game stats
+    game_csv: csv.Writer = csv.Writer(
+        path=path,
+        file_name='Game'
+    )
+
+    game_csv.write_rows([
+        game.header,
+        game.data
+    ])
+
+    game_csv.close()
+
+    # ? Save pieces stats
+    piece_csv: csv.Writer = csv.Writer(
+        path=path,
+        file_name='Pieces'
+    )
+
+    piece_csv.write_rows(
+        game.pieces_handler
+    )

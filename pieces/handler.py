@@ -8,6 +8,17 @@ class PieceHandler:
     def __init__(self):
         self.pieces: list = []
         self.__fill()
+    
+    # * Getters
+    @property
+    def header(self) -> list[str]:
+        return [
+            'row',
+            'column',
+            'type',
+            'group',
+            'alive'
+        ]
 
     # * Method - Fill pieces
     def __fill(self) -> None:

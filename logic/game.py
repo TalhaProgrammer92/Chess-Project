@@ -21,6 +21,23 @@ class Game:
         self.game_over: bool = kwargs.get('game_over', False)
         self.turn: int = kwargs.get('turn', 0)
 
+    # * Getters
+    @property
+    def header(self) -> list[str]:
+        return [
+            'game_over',
+            'turn',
+            'moves'
+        ]
+    
+    @property
+    def data(self) -> list:
+        return [
+            '1' if self.game_over else '0',
+            str(self.turn),
+            str(self.moves)
+        ]
+
     # * Method - Update game state
     def update(self) -> None:
         self.turn ^= 1  # ? Switch turn
