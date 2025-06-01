@@ -5,7 +5,6 @@ from player.player import *
 from utils.common import *
 from logic.misc import *
 from ui.text import *
-import data.csv_handler as csv
 import utils.settings as settings
 
 

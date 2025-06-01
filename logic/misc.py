@@ -1,7 +1,8 @@
 from player.player import Player
-import utils.settings as settings
 from utils.common import Position
 from ui.text import *
+import utils.settings as settings
+import data.csv_handler as csv
 
 
 # * Function - Display turn
@@ -29,3 +30,7 @@ def parse_labeled_position(position: str) -> Position:
         column=c.find(position[1])
     )
     return position
+
+# * Function - Save a game
+def save_game(game) -> None:
+    pass

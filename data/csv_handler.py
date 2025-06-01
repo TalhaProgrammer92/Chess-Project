@@ -8,10 +8,12 @@ from os import mkdir
 ######################
 class Reader:
 	def __init__(self, **kwargs):
-		self.__path: str = kwargs.get('path', '')
-		self.__file: str = kwargs.get('file', '') + '.csv'
-		self.__f = open(join(self.__path, self.__file), 'r')
-		self.__reader = csv.reader(self.__f, delimiter=kwargs.get('delimiter', ','))
+		self.__path: str = join(
+			kwargs.get('path', ''),
+			kwargs.get('file_name', '') + '.csv'
+		)
+		self.__file = open(self.__path, 'r')
+		self.__reader = csv.reader(self.__file, delimiter=kwargs.get('delimiter', ','))
 	
 	# * Getter - CSV Data
 	@property
@@ -20,11 +22,11 @@ class Reader:
 	
 	# * Method - Close the opened file
 	def close(self) -> None:
-		self.__f.close()
+		self.__file.close()
 
 	# * Method - Representation
 	def __repr__(self) -> str:
-		return join(self.__path, self.__file)
+		return self.__path
 	
 
 ########################
@@ -36,10 +38,10 @@ class Writer:
 		if not exists(self.__path):
 			mkdir(self.__path)
 
-		self.__file: str = kwargs.get('file', '') + '.csv'
+		self.__path: str = join(self.__path, kwargs.get('file_name', '') + '.csv')
 		self.__mode: str = kwargs.get('mode', 'w')	# ! Can only be either 'w' or 'a'
-		self.__f = open(join(self.__path, self.__file), self.__mode)
-		self.__writer = csv.writer(self.__f, delimiter=kwargs.get('delimiter', ','))
+		self.__file = open(self.__path, self.__mode)
+		self.__writer = csv.writer(self.__file, delimiter=kwargs.get('delimiter', ','))
 	
 	# * Method - Write a single row
 	def write_row(self, data: list) -> None:
@@ -51,38 +53,8 @@ class Writer:
 
 	# * Method - Close the opened file
 	def close(self) -> None:
-		self.__f.close()
+		self.__file.close()
 
 	# * Method - Representation
 	def __repr__(self) -> str:
 		return join(self.__path, self.__file) + f' - {self.__mode}'
-
-
-# * Testing
-if '__main__' == __name__:
-	# writer: Writer = Writer(path='data', file='file')
-	writer: Writer = Writer(path='data', file='file', mode='a')
-	# writer.write_rows([
-	# 	['name', 'class', 'marks'],
-	# 	['Talha Ahmad', 7, 70],
-	# 	['Aslam Khan', 7, 62],
-	# 	['Ahmad Hassan', 7, 58],
-	# 	['Farooq Rajput', 7, 64]
-	# ])
-	writer.write_rows([
-		['Faizan Ali', 7, 72],
-		['Akbar', 7],
-		['Muzammil', 7, 69]
-	])
-	writer.close()
-
-	reader: Reader = Reader(path='data', file='file')
-	
-	# ! Display data
-	# print(reader.data)
-	for row in reader.data:
-		if len(row) > 0:
-			# print('|'.join(row))
-			print(row)
-
-	reader.close()
