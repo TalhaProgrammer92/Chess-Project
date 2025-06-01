@@ -81,9 +81,9 @@ def save_game(game: Game, slot_name: str) -> None:
     # ? Save pieces stats
     piece_csv: csv.Writer = csv.Writer(
         path=path,
-        file_name='Pieces'
+        file_name='Pieces',
+		mode='a'
     )
 
-    piece_csv.write_rows(
-        game.pieces_handler
-    )
+    piece_csv.write_row(game.pieces_handler.header)
+	piece_csv.write_rows(game.pieces_handler.data)

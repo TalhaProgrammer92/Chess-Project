@@ -19,6 +19,13 @@ class PieceHandler:
             'group',
             'alive'
         ]
+    
+    def data(self) -> list[list]:
+        d: list[list] = []
+        for pieces in self.pieces:
+            for piece in pieces:
+                d.append(piece.data)
+        return d
 
     # * Method - Fill pieces
     def __fill(self) -> None:

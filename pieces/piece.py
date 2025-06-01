@@ -14,7 +14,8 @@ class Piece:
         self.property: Property = kwargs.get('property', Property())
         self._position: Position = kwargs.get('position', Position())
         self._valid_moves: list[Position] = []
-        self.alive: bool = False
+        self.alive: bool = True
+        self._group: str = kwargs.get('group', '')
 
     # * Getters
     @property
@@ -24,6 +25,20 @@ class Piece:
     @property
     def position(self) -> Position:
         return self._position
+    
+    @property
+    def group(self) -> str:
+        return self._group
+    
+    @property
+    def data(self) -> list:
+        return [
+            self.position.row,
+            self.position.column,
+            settings.unicode_map['piece'][self._symbol],
+            self._group,
+            '1' if self.alive else '0'
+        ]
 
     # * Method - Check displacement
     def displacement(self, destination: Position) -> Position:
