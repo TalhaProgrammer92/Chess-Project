@@ -78,26 +78,26 @@ def save_game(game: Game, slot_name: str) -> None:
 
     game_csv.close()
 
-    # ? Save pieces data
-    piece_csv: csv.Writer = csv.Writer(
-        path=path,
-        file_name='Pieces',
-		mode='a'
-    )
+    # # ? Save pieces data
+    # piece_csv: csv.Writer = csv.Writer(
+    #     path=path,
+    #     file_name='Pieces',
+	# 	mode='a'
+    # )
 
-    piece_csv.write_row(game.pieces_handler.header)
-	piece_csv.write_rows(game.pieces_handler.data)
+    # piece_csv.write_row(game.pieces_handler.header)
+	# piece_csv.write_rows(game.pieces_handler.data)
 
-	piece_csv.close()
+	# piece_csv.close()
 
-	# ? Save player data
-	player_csv: csv.Writer = csv.Writer(
-		path=path,
-		file_name='Player',
-		mode='a'
-	)
+	# # ? Save player data
+	# player_csv: csv.Writer = csv.Writer(
+	# 	path=path,
+	# 	file_name='Player',
+	# 	mode='a'
+	# )
 
-	player_csv.write_row(game.players[0].header)
-	player_csv.write_rows([[game.players[i].data] for i in range(len(game.players))])
+	# player_csv.write_row(game.players[0].header)
+	# player_csv.write_rows([[game.players[i].data] for i in range(len(game.players))])
 
-	player_csv.close()
+	# player_csv.close()
