@@ -129,7 +129,7 @@ def load_game(slot_name: str) -> tuple | None:
         # ? Piece data
         piece_data: list[list] = Reader(
             path=path,
-            file_name='Piece'
+            file_name='Pieces'
         ).data
         next(piece_data)
 
@@ -140,7 +140,7 @@ def load_game(slot_name: str) -> tuple | None:
         # ? Game stats
         game_stats: list = Reader(
             path=path,
-            file_name='Player'
+            file_name='Game'
         ).data
 
         # ! Return data / objects
