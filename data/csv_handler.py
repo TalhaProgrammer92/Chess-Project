@@ -108,6 +108,13 @@ def save_game(game: Game, slot_name: str) -> None:
 
 # * Function - Load a game
 def load_game(slot_name: str) -> tuple | None:
+    """
+    Load a saved game from a specific slot.
+
+    Returns:
+        Tuple of (game_stats, players, piece_handler) if successful,
+        otherwise None if files are missing or corrupted.
+    """
     path: str = f'data/{slot_name}'
     if not exists(path):
         return None
@@ -147,5 +154,5 @@ def load_game(slot_name: str) -> tuple | None:
         return game_stats, players, piece_handler
 
     except Exception:
-        print('A file might be missing from the slot!')
+        print('Corrupted Slot!', Exception)
         return None
