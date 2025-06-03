@@ -2,6 +2,8 @@ import csv
 from os.path import join, exists
 from os import mkdir
 from logic.game import Game
+from player.player import Player
+from pieces.handler import PieceHandler
 
 
 ######################
@@ -66,7 +68,7 @@ def save_game(game: Game, slot_name: str) -> None:
     path: str = f'data/{slot_name}'
     
     # ? Save game stats
-    game_csv: csv.Writer = csv.Writer(
+    game_csv: Writer = Writer(
         path=path,
         file_name='Game'
     )
@@ -79,7 +81,7 @@ def save_game(game: Game, slot_name: str) -> None:
     game_csv.close()
 
     # ? Save pieces data
-    piece_csv: csv.Writer = csv.Writer(
+    piece_csv: Writer = Writer(
         path=path,
         file_name='Pieces',
     	mode='a'
@@ -91,7 +93,7 @@ def save_game(game: Game, slot_name: str) -> None:
     piece_csv.close()
 
     # ? Save player data
-    player_csv: csv.Writer = csv.Writer(
+    player_csv: Writer = Writer(
     	path=path,
     	file_name='Player',
     	mode='a'
@@ -101,3 +103,47 @@ def save_game(game: Game, slot_name: str) -> None:
     player_csv.write_rows([[game.players[i].data] for i in range(len(game.players))])
 
     player_csv.close()
+
+# * Function - Load a game
+def load_game(slot_name: str) -> tuple | None:
+    path: str = f'data/{slot_name}'
+    if not exists(path):
+        return None
+    
+    try:
+        # ? Player data
+        player_data: list = Reader(
+            path=path,
+            file_name='Player'
+        ).data
+        next(player_data)
+
+        # ! Convert csv data to player objects' list
+        players: list = [
+            Player(name=player_data[i][0], score=int(player_data[i][1]), group=player_data[i][2])
+            for i in range(len(player_data))
+        ]
+
+        # ? Piece data
+        piece_data: list[list] = Reader(
+            path=path,
+            file_name='Piece'
+        ).data
+        next(piece_data)
+
+        # ! Convert csv data to piece handler object
+        piece_handler: PieceHandler = PieceHandler()
+        piece_handler.set_pieces(piece_data)
+
+        # ? Game stats
+        game_stats: list = Reader(
+            path=path,
+            file_name='Player'
+        ).data
+
+        # ! Return data / objects
+        return game_stats, players, piece_handler
+
+    except Exception:
+        print('A file might be missing from the slot!')
+        return None

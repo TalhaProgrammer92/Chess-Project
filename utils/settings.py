@@ -4,13 +4,15 @@ from ui.text import *
 unicode_map: dict = {
 	'piece': {
 		# * char -> unicode
-		'k': '♔',
+		# ? White
+        'k': '♔',
         'q': '♕',
         'r': '♖',
         'b': '♗',
         'n': '♘',
         'p': '♙',
 		
+        # ? Black
         'K': '♚',
         'Q': '♛',
         'R': '♜',
@@ -18,10 +20,12 @@ unicode_map: dict = {
         'N': '♞',
         'P': '♟',
 		
+        # ? Empty Cell
         'W': '○',
         'L': '◉',
 		
         # * unicode -> char
+		# ? White
 		'♔': 'k',
         '♕': 'q',
         '♖': 'r',
@@ -29,6 +33,7 @@ unicode_map: dict = {
         '♘': 'n',
         '♙': 'p',
 		
+        # ? Black
         '♚': 'K',
         '♛': 'Q',
         '♜': 'R',
@@ -36,6 +41,7 @@ unicode_map: dict = {
         '♞': 'N',
         '♟': 'P',
 		
+        # ? Empty Cell
         '○': 'W',
         '◉': 'L'
     }

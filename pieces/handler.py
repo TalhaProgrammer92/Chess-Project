@@ -75,6 +75,26 @@ class PieceHandler:
         self.pieces.append(white)
         self.pieces.append(black)
 
+    # * Method - Set positions from given pieces' data
+    def set_pieces(self, pieces_data: list[list]):
+        group: list[str] = ['white', 'black']
+        
+        for piece in pieces_data:
+            group_index: int = group.index(piece[3])
+            piece_index: int = (0, 0)
+            
+            # ? Set position and other property
+            self.pieces[group_index][piece_index[group_index]].move(
+                Position(
+                    row=int(piece[0]),
+                    column=int(piece[1])
+                )
+            )
+            self.pieces[group_index][piece_index[group_index]].alive = True if piece[4] == '1' else False
+
+            # ? Increase index
+            piece_index[group_index] += 1
+
     # * Method - Reset all positions
     def reset(self) -> None:
         # ? Pawns
