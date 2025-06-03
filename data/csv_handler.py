@@ -21,7 +21,9 @@ class Reader:
     # * Getter - CSV Data
     @property
     def data(self) -> list[list[str]]:
-        return list(self.__reader)
+        l = list(self.__reader)
+        self.close()
+        return l
     
     # * Method - Close the opened file
     def close(self) -> None:
