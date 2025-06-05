@@ -20,6 +20,7 @@ class PieceHandler:
             'alive'
         ]
     
+    @property
     def data(self) -> list[list]:
         d: list[list] = []
         for pieces in self.pieces:
@@ -81,7 +82,7 @@ class PieceHandler:
         
         for piece in pieces_data:
             group_index: int = group.index(piece[3])
-            piece_index: int = [0, 16]
+            piece_index: int = [0, 0]
             
             # ? Set position and other property
             self.pieces[group_index][piece_index[group_index]].move(

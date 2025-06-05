@@ -15,19 +15,18 @@ class Reader:
             kwargs.get('path', ''),
             kwargs.get('file_name', '') + '.csv'
         )
-        self.__file = open(self.__path, 'r')
-        self.__reader = csv.reader(self.__file, delimiter=kwargs.get('delimiter', ','))
+        self.__delimiter: str = kwargs.get('delimiter', ',')
+        self.__data: list[list[str]] | None = None
     
     # * Getter - CSV Data
     @property
-    def data(self) -> list[list[str]]:
-        l = list(self.__reader)
-        self.close()
-        return l
+    def data(self) -> list[list[str]] | None:
+        return self.__data
     
-    # * Method - Close the opened file
-    def close(self) -> None:
-        self.__file.close()
+    # * Method - Extract data
+    def extract_data(self) -> None:
+        with open(self.__path, 'r') as file:
+            self.__data = list(csv.reader(file, delimiter=self.__delimiter))
 
     # * Method - Representation
     def __repr__(self) -> str:
@@ -37,7 +36,7 @@ class Reader:
 ########################
 # Write to csv file
 ########################
-class Writer:
+class Writer: 
     def __init__(self, **kwargs):
         self.__path: str = kwargs.get('path', '')
         if not exists(self.__path):
@@ -45,20 +44,17 @@ class Writer:
 
         self.__path: str = join(self.__path, kwargs.get('file_name', '') + '.csv')
         self.__mode: str = kwargs.get('mode', 'w')	# ! Can only be either 'w' or 'a'
-        self.__file = open(self.__path, self.__mode)
-        self.__writer = csv.writer(self.__file, delimiter=kwargs.get('delimiter', ','))
+        self.__delimiter: str = kwargs.get('delimiter', ',')
     
     # * Method - Write a single row
     def write_row(self, data: list) -> None:
-        self.__writer.writerow(data)
+        with open(self.__path, self.__mode) as file:
+            csv.writer(file, delimiter=self.__delimiter).writerow(data)
     
     # * Method - Write multiple rows
     def write_rows(self, data: list[list]) -> None:
-        self.__writer.writerows(data)
-
-    # * Method - Close the opened file
-    def close(self) -> None:
-        self.__file.close()
+        with open(self.__path, self.__mode) as file:
+            csv.writer(file, delimiter=self.__delimiter).writerows(data)
 
     # * Method - Representation
     def __repr__(self) -> str:
@@ -80,8 +76,6 @@ def save_game(game: Game, slot_name: str) -> None:
         game.data
     ])
 
-    game_csv.close()
-
     # ? Save pieces data
     piece_csv: Writer = Writer(
         path=path,
@@ -89,10 +83,8 @@ def save_game(game: Game, slot_name: str) -> None:
     	mode='a'
     )
 
-    piece_csv.write_row(game.pieces_handler.header)
-    piece_csv.write_rows(game.pieces_handler.data)
-
-    piece_csv.close()
+    piece_csv.write_row(game.board.piece_handler.header)
+    piece_csv.write_rows(game.board.piece_handler.data)
 
     # ? Save player data
     player_csv: Writer = Writer(
@@ -102,9 +94,8 @@ def save_game(game: Game, slot_name: str) -> None:
     )
 
     player_csv.write_row(game.players[0].header)
-    player_csv.write_rows([[game.players[i].data] for i in range(len(game.players))])
-
-    player_csv.close()
+    for player in game.players:
+        player_csv.write_row(player.data)
 
 # * Function - Load a game
 def load_game(slot_name: str) -> tuple | None:
@@ -117,14 +108,16 @@ def load_game(slot_name: str) -> tuple | None:
     """
     path: str = f'data/{slot_name}'
     if not exists(path):
-        return None
+        raise FileNotFoundError(f'Particular folder: {slot_name} does not exist')
     
     try:
         # ? Player data
-        player_data: list = Reader(
+        reader: Reader = Reader(
             path=path,
             file_name='Player'
-        ).data
+        )
+        reader.extract_data()
+        player_data: list = reader.data
         next(player_data)
 
         # ! Convert csv data to player objects' list
@@ -134,10 +127,13 @@ def load_game(slot_name: str) -> tuple | None:
         ]
 
         # ? Piece data
-        piece_data: list[list] = Reader(
+        reader = Reader(
             path=path,
             file_name='Pieces'
-        ).data
+        )
+        reader.extract_data()
+
+        piece_data: list[list] = reader.data
         next(piece_data)
 
         # ! Convert csv data to piece handler object
@@ -145,10 +141,14 @@ def load_game(slot_name: str) -> tuple | None:
         piece_handler.set_pieces(piece_data)
 
         # ? Game stats
-        game_stats: list = Reader(
+        reader = Reader(
             path=path,
             file_name='Game'
-        ).data
+        )
+        reader.extract_data()
+        
+        game_stats: list = reader.data
+        next(game_stats)
 
         # ! Return data / objects
         return game_stats, players, piece_handler

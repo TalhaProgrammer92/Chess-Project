@@ -2,12 +2,13 @@ from board.board import Board
 from pieces.handler import PieceHandler
 from logic.game import *
 from player.player import *
+from data.csv_handler import *
 import utils.settings as settings
 
 if __name__ == '__main__':
-    board: Board = Board()
     ph: PieceHandler = PieceHandler()
     ph.reset()
+    board: Board = Board(ph)
 
     # board.place_pieces(ph.pieces)
     # board.display()
@@ -25,5 +26,9 @@ if __name__ == '__main__':
         Player(name='Rayan Zulfiqar', group='black')
     ]
 
-    game: Game = Game(board=board, piece_handler=ph, players=players)
-    game.start_game()
+    game: Game = Game(board=board, players=players)
+    # game.start_game()
+
+    save_game(game, 'slot-1')
+
+    print('Saved Successfully!')

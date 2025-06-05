@@ -2,7 +2,7 @@ from player.player import Player
 from utils.common import Position
 from ui.text import *
 import utils.settings as settings
-import data.csv_handler as csv
+# import data.csv_handler as csv
 
 
 # * Function - Display turn

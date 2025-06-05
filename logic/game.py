@@ -13,10 +13,8 @@ import utils.settings as settings
 ################################################
 class Game:
     def __init__(self, **kwargs):
-        self.board: Board = kwargs.get('board', Board())
+        self.board: Board = kwargs.get('board', None)
         self.players: list[Player] = kwargs.get('players', [Player(), Player()])
-        self.pieces_handler: PieceHandler = kwargs.get('piece_handler', PieceHandler())
-        self.board.place_pieces(self.pieces_handler.pieces)
         self.moves: int = kwargs.get('moves', 0)
         self.game_over: bool = kwargs.get('game_over', False)
         self.turn: int = kwargs.get('turn', 0)
@@ -44,9 +42,10 @@ class Game:
 
     # * Method - Reset the game
     def reset_game(self) -> None:
-        self.board.clear()
-        self.pieces_handler.reset()
-        self.board.place_pieces(self.pieces_handler.pieces)
+        if self.board is None:  # ! Temperarily avoid TypeError: Board.__init__() missing 1 required positional argument: 'pieces'
+            return
+
+        self.board.reset()
         self.moves = 0
         self.game_over = False
 
@@ -80,19 +79,19 @@ class Game:
             print(location)
 
             # ? Save Data - Test
-            csv_writer = csv.Writer(path='data/save-01', file='board.csv')
-            data = [['row', 'column', 'symbol']]
-            for row in range(8):
-                for column in range(8):
-                    data.append([
-                        row, column,
-                        settings.unicode_map['piece'][self.board.get_cell(Position(row=row, column=column)).symbol]
-                    ])
+            # csv_writer = csv.Writer(path='data/save-01', file='board.csv')
+            # data = [['row', 'column', 'symbol']]
+            # for row in range(8):
+            #     for column in range(8):
+            #         data.append([
+            #             row, column,
+            #             settings.unicode_map['piece'][self.board.get_cell(Position(row=row, column=column)).symbol]
+            #         ])
 
-            csv_writer.write_rows(data)
+            # csv_writer.write_rows(data)
 
-            csv_writer.close()
-            print("Successfully saved board data!")
+            # csv_writer.close()
+            # print("Successfully saved board data!")
 
             # ? Hold Screen
             # hold()

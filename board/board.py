@@ -12,8 +12,9 @@ from utils.settings import board_items
 class Board:
     def __init__(self, pieces: PieceHandler):
         self.__grid: list[list[Cell]] = []
-        self.__piece_handler: PieceHandler = pieces
+        self.piece_handler: PieceHandler = pieces
         self.clear()
+        self.place_pieces()
 
     # * Method - Get cell
     def get_cell(self, position: Position) -> Cell:
@@ -31,7 +32,7 @@ class Board:
         group_index, piece_index = self.get_indices(position)
         
         # ? Move the piece in handler
-        self.__piece_handler.pieces[group_index][piece_index].move(destination)
+        self.piece_handler.pieces[group_index][piece_index].move(destination)
         
         # ? Update the board's grid
         self.set_cell(
@@ -51,18 +52,19 @@ class Board:
     def reset_cell(self, position: Position) -> None:
         self.__grid[position.row][position.column] = get_empty_cell(position)
 
-    # * Method - Place pieces
+    # * Method - Place pieces from piece handler
     def place_pieces(self) -> None:
-        pieces = self.__piece_handler.pieces
-        for t in range(len(pieces)):
-            for index in range(len(pieces[t])):
-                piece = pieces[t][index]
+        pieces = self.piece_handler.pieces
+        for _type in range(len(pieces)):
+            for index in range(len(pieces[_type])):
+                piece = pieces[_type][index]
+                # print('Piece at', piece.position)
                 self.set_cell(
                     cell=Cell(
                         symbol=piece.symbol,
                         property=piece.property,
                         piece_index=index,
-                        type_index=t
+                        type_index=_type
                     ),
                     position=piece.position,
                 )
@@ -82,6 +84,12 @@ class Board:
             for row in range(8):
                 for column in range(8):
                     self.__grid[row][column] = get_empty_cell(Position(row=row, column=column))
+    
+    # * Method - Reset board
+    def reset(self) -> None:
+        self.clear()
+        self.piece_handler.reset()
+        self.place_pieces()
 
     # * Method - Display the grid
     def display(self) -> None:
