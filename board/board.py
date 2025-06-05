@@ -30,8 +30,10 @@ class Board:
         current_cell: Cell = self.get_cell(position)
         group_index, piece_index = self.get_indices(position)
         
-        # ? Move the piece
+        # ? Move the piece in handler
         self.__piece_handler.pieces[group_index][piece_index].move(destination)
+        
+        # ? Update the board's grid
         self.set_cell(
             position=destination,
             cell=current_cell
