@@ -6,7 +6,7 @@ from pieces.piece import *
 ##############################################
 class PieceHandler:
     def __init__(self):
-        self.pieces: list = []
+        self.pieces: list[list[Pawn | Bishop | Rook | Knight | Queen | King]] = []
         self.__fill()
     
     # * Getters

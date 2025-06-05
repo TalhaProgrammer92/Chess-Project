@@ -1,5 +1,6 @@
 from ui.color import ansi, code
-from ui.text import Property
+# from ui.text import Property
+from pieces.handler import PieceHandler
 from board.misc import get_empty_cell
 from utils.common import *
 from utils.settings import board_items
@@ -9,13 +10,33 @@ from utils.settings import board_items
 # Board class - Handle board grid
 ######################################
 class Board:
-    def __init__(self):
+    def __init__(self, pieces: PieceHandler):
         self.__grid: list[list[Cell]] = []
+        self.__piece_handler: PieceHandler = pieces
         self.clear()
 
     # * Method - Get cell
     def get_cell(self, position: Position) -> Cell:
         return self.__grid[position.row][position.column]
+
+    # * Method - Get Indices
+    def get_indices(self, position: Position) -> tuple[int, int]:
+        cell: Cell = self.get_cell(position)
+        return cell.type_index, cell.piece_index
+
+    # * Method - Move piece
+    def move_piece(self, position: Position, destination: Position) -> None:
+        # ? Get current cell of given position and indices for piece handler
+        current_cell: Cell = self.get_cell(position)
+        group_index, piece_index = self.get_indices(position)
+        
+        # ? Move the piece
+        self.__piece_handler.pieces[group_index][piece_index].move(destination)
+        self.set_cell(
+            position=destination,
+            cell=current_cell
+        )
+        self.reset_cell(position)
 
     # * Method - Set cell
     def set_cell(self, **kwargs) -> None:
@@ -29,7 +50,8 @@ class Board:
         self.__grid[position.row][position.column] = get_empty_cell(position)
 
     # * Method - Place pieces
-    def place_pieces(self, pieces: list) -> None:
+    def place_pieces(self) -> None:
+        pieces = self.__piece_handler.pieces
         for t in range(len(pieces)):
             for index in range(len(pieces[t])):
                 piece = pieces[t][index]
