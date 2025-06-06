@@ -1,6 +1,6 @@
 from ui.color import ansi
 from ui.text import *
-from os import system
+from os import system, name
 
 
 ################################################
@@ -87,4 +87,4 @@ def get_position_labels() -> list[str]:
 
 # * Function - Clear Screen
 def clrscr():
-    system('cls');
+    system('cls' if name == 'nt' else 'clear');
