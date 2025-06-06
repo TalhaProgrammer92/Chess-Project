@@ -56,7 +56,7 @@ class Game:
     def start_game(self) -> None:
         while not self.game_over:
             # ? Clear Screen
-            # clrscr()
+            clrscr()
             # print()
             
             # ? Display board
@@ -76,25 +76,6 @@ class Game:
                     range=get_position_labels()
                 )
             )
-            print(location)
-
-            # ? Save Data - Test
-            # csv_writer = csv.Writer(path='data/save-01', file='board.csv')
-            # data = [['row', 'column', 'symbol']]
-            # for row in range(8):
-            #     for column in range(8):
-            #         data.append([
-            #             row, column,
-            #             settings.unicode_map['piece'][self.board.get_cell(Position(row=row, column=column)).symbol]
-            #         ])
-
-            # csv_writer.write_rows(data)
-
-            # csv_writer.close()
-            # print("Successfully saved board data!")
-
-            # ? Hold Screen
-            # hold()
 
             # ? Update state
             self.update()

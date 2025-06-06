@@ -118,10 +118,7 @@ def load_game(slot_name: str) -> tuple[list[str], list[Player], PieceHandler] | 
             file_name='Player'
         )
         reader.extract_data()
-        player_data: list = reader.data
-        player_data = player_data[1:]
-        # print(player_data, end='\n\n')
-        # next(player_data)
+        player_data: list = reader.data[1:]
 
         # ! Convert csv data to player objects' list
         players: list = [
@@ -136,13 +133,11 @@ def load_game(slot_name: str) -> tuple[list[str], list[Player], PieceHandler] | 
         )
         reader.extract_data()
 
-        piece_data: list[list] = reader.data
-        # print(piece_data, end='\n\n')
-        # next(piece_data)
+        piece_data: list[list] = reader.data[1:]
 
         # ! Convert csv data to piece handler object
         piece_handler: PieceHandler = PieceHandler()
-        piece_handler.fill_via_csv_data(piece_data[1:])
+        piece_handler.fill_via_csv_data(piece_data)
 
         # ? Game stats
         reader = Reader(
@@ -151,14 +146,11 @@ def load_game(slot_name: str) -> tuple[list[str], list[Player], PieceHandler] | 
         )
         reader.extract_data()
         
-        game_stats: list = reader.data
-        # print(game_stats, end='\n\n')
-        # next(game_stats)
+        game_stats: list = reader.data[1:]
 
         # ! Return data / objects
-        return game_stats[1:], players, piece_handler
+        return game_stats, players, piece_handler
 
     except Exception as e:
         print(f'[ERROR] Corrupted slot ({slot_name}):', e)
-    
-    return None
+        return None
