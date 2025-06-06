@@ -30,7 +30,7 @@ A fully-featured, console-based 2D Chess game built in Python — no GUI, just p
 1. Clone the repository:
    ```bash
    git clone https://github.com/TalhaProgrammer92/Chess-Project
-   cd console-chess-python
+   cd Chess-Project
    ```
 
 2. Run the game:
