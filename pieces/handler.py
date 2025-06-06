@@ -6,8 +6,8 @@ from pieces.piece import *
 ##############################################
 class PieceHandler:
     def __init__(self):
-        self.pieces: list[list[Pawn | Bishop | Rook | Knight | Queen | King]] = []
-        self.__fill()
+        self.pieces: list[list[Pawn | Bishop | Rook | Knight | Queen | King]] = [[], []]
+        # self.fill_default()
     
     # * Getters
     @property
@@ -29,75 +29,147 @@ class PieceHandler:
         return d
 
     # * Method - Fill pieces
-    def __fill(self) -> None:
+    def fill_default(self) -> None:
         # ? Lists
         white: list = []
         black: list = []
 
         # ? Add items - White
-        white.extend([Pawn(type='white') for i in range(8)])
+        white.extend([Pawn(group='white') for i in range(8)])
         white.extend([
-            Rook(type='white'),
-            Rook(type='white')
+            Rook(group='white'),
+            Rook(group='white')
         ])
         white.extend([
-            Bishop(type='white'),
-            Bishop(type='white')
+            Bishop(group='white'),
+            Bishop(group='white')
         ])
         white.extend([
-            Knight(type='white'),
-            Knight(type='white')
+            Knight(group='white'),
+            Knight(group='white')
         ])
         white.extend([
-            Queen(type='white'),
-            King(type='white')
+            Queen(group='white'),
+            King(group='white')
         ])
 
         # ? Add items - Black
-        black.extend([Pawn(type='black') for i in range(8)])
+        black.extend([Pawn(group='black') for i in range(8)])
         black.extend([
-            Rook(type='black'),
-            Rook(type='black')
+            Rook(group='black'),
+            Rook(group='black')
         ])
         black.extend([
-            Bishop(type='black'),
-            Bishop(type='black')
+            Bishop(group='black'),
+            Bishop(group='black')
         ])
         black.extend([
-            Knight(type='black'),
-            Knight(type='black')
+            Knight(group='black'),
+            Knight(group='black')
         ])
         black.extend([
-            Queen(type='black'),
-            King(type='black')
+            Queen(group='black'),
+            King(group='black')
         ])
 
         # ? Append to the main list
-        self.pieces.append(white)
-        self.pieces.append(black)
+        self.pieces[0] = white
+        self.pieces[1] = black
 
     # * Method - Set positions from given pieces' data
-    def set_pieces(self, pieces_data: list[list]):
+    def fill_via_csv_data(self, pieces_data: list[list]):
         group: list[str] = ['white', 'black']
         
         for piece in pieces_data:
-            group_index: int = group.index(piece[3])
-            piece_index: int = [0, 0]
-            
-            # ? Set position and other property
-            self.pieces[group_index][piece_index[group_index]].move(
-                Position(
-                    row=int(piece[0]),
-                    column=int(piece[1])
-                )
+            # ! Extracted Data from CSV
+            group: str = piece[3]
+            group_index: int = group.index(group)
+            position: Position = Position(
+                row=int(piece[0]),
+                column=int(piece[1])
             )
-            self.pieces[group_index][piece_index[group_index]].alive = True if piece[4] == '1' else False
+            alive: bool = True if piece[4] == '1' else False
 
-            # ? Increase index
-            piece_index[group_index] += 1
+            # ? Set piece
+            match piece[2].lower():
+                # ! Pawn
+                case 'p':
+                    self.pieces[group_index].append(
+                        Pawn(
+                            group=group,
+                            position=position,
+                            alive=alive
+                        )
+                    )
+                
+                # ! Rook
+                case 'r':
+                    self.pieces[group_index].append(
+                        Rook(
+                            group=group,
+                            position=position,
+                            alive=alive
+                        )
+                    )
+                
+                # ! Knight
+                case 'n':
+                    self.pieces[group_index].append(
+                        Knight(
+                            group=group,
+                            position=position,
+                            alive=alive
+                        )
+                    )
+                
+                # ! Bishop
+                case 'b':
+                    self.pieces[group_index].append(
+                        Bishop(
+                            group=group,
+                            position=position,
+                            alive=alive
+                        )
+                    )
+                
+                # ! Queen
+                case 'q':
+                    self.pieces[group_index].append(
+                        Queen(
+                            group=group,
+                            position=position,
+                            alive=alive
+                        )
+                    )
+                
+                # ! King
+                case 'k':
+                    self.pieces[group_index].append(
+                        King(
+                            group=group,
+                            position=position,
+                            alive=alive
+                        )
+                    )
+
+            # piece_index: int = [0, 0]
+            
+            # # ? Set position and other property
+            # self.pieces[group_index][piece_index[group_index]].move(
+            #     Position(
+            #         row=int(piece[0]),
+            #         column=int(piece[1])
+            #     )
+            # )
+            # self.pieces[group_index][piece_index[group_index]].alive = True if piece[4] == '1' else False
+
+            # # ? Increase index
+            # piece_index[group_index] += 1
 
     # * Method - Reset all positions
     def reset(self) -> None:
+        self.fill_default()
+
         # ? Pawns
         for i in range(8):
             self.pieces[0][i].move(Position(row=6, column=i))  # White

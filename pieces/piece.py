@@ -14,7 +14,7 @@ class Piece:
         self.property: Property = kwargs.get('property', Property())
         self._position: Position = kwargs.get('position', Position())
         self._valid_moves: list[Position] = []
-        self.alive: bool = True
+        self.alive: bool = kwargs.get('alive', True)
         self._group: str = kwargs.get('group', '')
 
     # * Getters
@@ -82,11 +82,13 @@ class Piece:
 ###########
 class Rook(Piece):
     def __init__(self, **kwargs):
-        self._type = kwargs.get('type', '')
+        self._group: str = kwargs.get('group', '')
         super().__init__(
-            symbol=settings.board_items['unicode']['piece'][self._type]['rook'],
-            property=Property(fg=settings.board_items['color']['piece'][self._type]),
-            position=kwargs.get('position', Position()))
+            symbol=settings.board_items['unicode']['piece'][self._group]['rook'],
+            property=Property(fg=settings.board_items['color']['piece'][self._group]),
+            position=kwargs.get('position', Position()),
+            group=self._group,
+            alive=kwargs.get('alive', True))
 
         self._valid_moves.extend([Position(row=r, column=0) for r in range(8)])     # Rows
         self._valid_moves.extend([Position(row=0, column=c) for c in range(8)])     # Columns
@@ -96,21 +98,19 @@ class Rook(Piece):
     def score_points(self) -> int:
         return self.__score_points
 
-    @property
-    def type(self) -> str:
-        return self._type
-
 
 #############
 # Knight
 #############
 class Knight(Piece):
     def __init__(self, **kwargs):
-        self._type = kwargs.get('type', '')
+        self._group = kwargs.get('group', '')
         super().__init__(
-            symbol=settings.board_items['unicode']['piece'][self._type]['knight'],
-            property=Property(fg=settings.board_items['color']['piece'][self._type]),
-            position=kwargs.get('position', Position()))
+            symbol=settings.board_items['unicode']['piece'][self._group]['knight'],
+            property=Property(fg=settings.board_items['color']['piece'][self._group]),
+            position=kwargs.get('position', Position()),
+            group=self._group,
+            alive=kwargs.get('alive', True))
 
         self._valid_moves.extend([
             Position(row=2, column=1),
@@ -122,21 +122,19 @@ class Knight(Piece):
     def score_points(self) -> int:
         return self.__score_points
 
-    @property
-    def type(self) -> str:
-        return self._type
-
 
 #############
 # Bishop
 #############
 class Bishop(Piece):
     def __init__(self, **kwargs):
-        self._type = kwargs.get('type', '')
+        self._group = kwargs.get('group', '')
         super().__init__(
-            symbol=settings.board_items['unicode']['piece'][self._type]['bishop'],
-            property=Property(fg=settings.board_items['color']['piece'][self._type]),
-            position=kwargs.get('position', Position()))
+            symbol=settings.board_items['unicode']['piece'][self._group]['bishop'],
+            property=Property(fg=settings.board_items['color']['piece'][self._group]),
+            position=kwargs.get('position', Position()),
+            group=self._group,
+            alive=kwargs.get('alive', True))
 
         self._valid_moves.extend([Position(row=i, column=i) for i in range(8)])
         self.__score_points: int = 3
@@ -145,21 +143,19 @@ class Bishop(Piece):
     def score_points(self) -> int:
         return self.__score_points
 
-    @property
-    def type(self) -> str:
-        return self._type
-
 
 #############
 # Queen
 #############
 class Queen(Piece):
     def __init__(self, **kwargs):
-        self._type = kwargs.get('type', '')
+        self._group = kwargs.get('group', '')
         super().__init__(
-            symbol=settings.board_items['unicode']['piece'][self._type]['queen'],
-            property=Property(fg=settings.board_items['color']['piece'][self._type]),
-            position=kwargs.get('position', Position()))
+            symbol=settings.board_items['unicode']['piece'][self._group]['queen'],
+            property=Property(fg=settings.board_items['color']['piece'][self._group]),
+            position=kwargs.get('position', Position()),
+            group=self._group,
+            alive=kwargs.get('alive', True))
 
         self._valid_moves.extend([Position(row=r, column=0) for r in range(8)])     # Rows
         self._valid_moves.extend([Position(row=0, column=c) for c in range(8)])     # Columns
@@ -170,21 +166,19 @@ class Queen(Piece):
     def score_points(self) -> int:
         return self.__score_points
 
-    @property
-    def type(self) -> str:
-        return self._type
-
 
 ###########
 # Pawn
 ###########
 class Pawn(Piece):
     def __init__(self, **kwargs):
-        self._type: str = kwargs.get('type', '')
+        self._group: str = kwargs.get('group', '')
         super().__init__(
-            symbol=settings.board_items['unicode']['piece'][self._type]['pawn'],
-            property=Property(fg=settings.board_items['color']['piece'][self._type]),
-            position=kwargs.get('position', Position()))
+            symbol=settings.board_items['unicode']['piece'][self._group]['pawn'],
+            property=Property(fg=settings.board_items['color']['piece'][self._group]),
+            position=kwargs.get('position', Position()),
+            group=self._group,
+            alive=kwargs.get('alive', True))
 
         self._valid_moves.extend([
             Position(row=1, column=0),
@@ -197,10 +191,6 @@ class Pawn(Piece):
     @property
     def score_points(self) -> int:
         return self.__score_points
-
-    @property
-    def type(self) -> str:
-        return self._type
 
     # * Method (Override)
     def move(self, destination: Position) -> None:
@@ -220,10 +210,10 @@ class Pawn(Piece):
     # * Method - Promote to Queen/Bishop/Rook/Knight
     def promotion(self, piece: str) -> Queen | Bishop | Rook | Knight:
         promote = {
-            'queen': lambda: Queen(type=self._type, position=self._position),
-            'bishop': lambda: Bishop(type=self._type, position=self._position),
-            'rook': lambda: Rook(type=self._type, position=self._position),
-            'knight': lambda: Knight(type=self._type, position=self._position)
+            'queen': lambda: Queen(type=self._group, position=self._position),
+            'bishop': lambda: Bishop(type=self._group, position=self._position),
+            'rook': lambda: Rook(type=self._group, position=self._position),
+            'knight': lambda: Knight(type=self._group, position=self._position)
         }
         return promote[piece]()
 
@@ -233,11 +223,13 @@ class Pawn(Piece):
 ###########
 class King(Piece):
     def __init__(self, **kwargs):
-        self._type = kwargs.get('type', '')
+        self._group = kwargs.get('group', '')
         super().__init__(
-            symbol=settings.board_items['unicode']['piece'][self._type]['king'],
-            property=Property(fg=settings.board_items['color']['piece'][self._type]),
-            position=kwargs.get('position', Position()))
+            symbol=settings.board_items['unicode']['piece'][self._group]['king'],
+            property=Property(fg=settings.board_items['color']['piece'][self._group]),
+            position=kwargs.get('position', Position()),
+            group=self._group,
+            alive=kwargs.get('alive', True))
 
         self._valid_moves.extend([
             Position(row=1, column=1),
@@ -249,7 +241,3 @@ class King(Piece):
     @property
     def score_points(self) -> int:
         return self.__score_points
-
-    @property
-    def type(self) -> str:
-        return self._type
