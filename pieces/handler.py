@@ -78,12 +78,11 @@ class PieceHandler:
 
     # * Method - Set positions from given pieces' data
     def fill_via_csv_data(self, pieces_data: list[list]):
-        group: list[str] = ['white', 'black']
-        
+        # ? Iterate through each piece's data
         for piece in pieces_data:
             # ! Extracted Data from CSV
             group: str = piece[3]
-            group_index: int = group.index(group)
+            group_index: int = 0 if group == 'white' else 1
             position: Position = Position(
                 row=int(piece[0]),
                 column=int(piece[1])
