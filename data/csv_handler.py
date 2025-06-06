@@ -158,5 +158,7 @@ def load_game(slot_name: str) -> tuple[list[str], list[Player], PieceHandler] | 
         # ! Return data / objects
         return game_stats[1:], players, piece_handler
 
-    except Exception:
-        print('Corrupted Slot!', Exception)
+    except Exception as e:
+        print(f'[ERROR] Corrupted slot ({slot_name}):', e)
+    
+    return None
