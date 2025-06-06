@@ -152,20 +152,6 @@ class PieceHandler:
                         )
                     )
 
-            # piece_index: int = [0, 0]
-            
-            # # ? Set position and other property
-            # self.pieces[group_index][piece_index[group_index]].move(
-            #     Position(
-            #         row=int(piece[0]),
-            #         column=int(piece[1])
-            #     )
-            # )
-            # self.pieces[group_index][piece_index[group_index]].alive = True if piece[4] == '1' else False
-
-            # # ? Increase index
-            # piece_index[group_index] += 1
-
     # * Method - Reset all positions
     def reset(self) -> None:
         self.fill_default()

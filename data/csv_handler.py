@@ -111,52 +111,52 @@ def load_game(slot_name: str) -> tuple[list[str], list[Player], PieceHandler] | 
     if not exists(path):
         raise FileNotFoundError(f'Particular folder: {slot_name} does not exist')
     
-    # try:
-    # ? Player data
-    reader: Reader = Reader(
-        path=path,
-        file_name='Player'
-    )
-    reader.extract_data()
-    player_data: list = reader.data
-    player_data = player_data[1:]
-    # print(player_data, end='\n\n')
-    # next(player_data)
+    try:
+        # ? Player data
+        reader: Reader = Reader(
+            path=path,
+            file_name='Player'
+        )
+        reader.extract_data()
+        player_data: list = reader.data
+        player_data = player_data[1:]
+        # print(player_data, end='\n\n')
+        # next(player_data)
 
-    # ! Convert csv data to player objects' list
-    players: list = [
-        Player(name=player_data[i][0], score=int(player_data[i][1]), group=player_data[i][2])
-        for i in range(len(player_data))
-    ]
+        # ! Convert csv data to player objects' list
+        players: list = [
+            Player(name=player_data[i][0], score=int(player_data[i][1]), group=player_data[i][2])
+            for i in range(len(player_data))
+        ]
 
-    # ? Piece data
-    reader = Reader(
-        path=path,
-        file_name='Pieces'
-    )
-    reader.extract_data()
+        # ? Piece data
+        reader = Reader(
+            path=path,
+            file_name='Pieces'
+        )
+        reader.extract_data()
 
-    piece_data: list[list] = reader.data
-    # print(piece_data, end='\n\n')
-    # next(piece_data)
+        piece_data: list[list] = reader.data
+        # print(piece_data, end='\n\n')
+        # next(piece_data)
 
-    # ! Convert csv data to piece handler object
-    piece_handler: PieceHandler = PieceHandler()
-    piece_handler.fill_via_csv_data(piece_data[1:])
+        # ! Convert csv data to piece handler object
+        piece_handler: PieceHandler = PieceHandler()
+        piece_handler.fill_via_csv_data(piece_data[1:])
 
-    # ? Game stats
-    reader = Reader(
-        path=path,
-        file_name='Game'
-    )
-    reader.extract_data()
-    
-    game_stats: list = reader.data
-    # print(game_stats, end='\n\n')
-    # next(game_stats)
+        # ? Game stats
+        reader = Reader(
+            path=path,
+            file_name='Game'
+        )
+        reader.extract_data()
+        
+        game_stats: list = reader.data
+        # print(game_stats, end='\n\n')
+        # next(game_stats)
 
-    # ! Return data / objects
-    return game_stats[1:], players, piece_handler
+        # ! Return data / objects
+        return game_stats[1:], players, piece_handler
 
-    # except Exception:
-    #     print('Corrupted Slot!', Exception)
+    except Exception:
+        print('Corrupted Slot!', Exception)
