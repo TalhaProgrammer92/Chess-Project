@@ -157,8 +157,8 @@ class PieceHandler:
 
         # ? Pawns
         for i in range(8):
-            self.pieces[0][i].move(Position(row=6, column=i))  # White
-            self.pieces[1][i].move(Position(row=1, column=i))  # Black
+            self.pieces[0][i].move(Position(row=6, column=i))  # ! White
+            self.pieces[1][i].move(Position(row=1, column=i))  # ! Black
 
         # ? Rooks
         self.pieces[0][8].move(Position(row=7, column=0))

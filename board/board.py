@@ -40,6 +40,17 @@ class Board:
             cell=current_cell
         )
         self.reset_cell(position)
+    
+    # * Method - Kill piece
+    def kill_piece(self, position: Position) -> None:
+        # ? Get indices
+        group_index, piece_index = self.get_indices(position)
+
+        # ? Kill the piece
+        self.piece_handler.pieces[group_index][piece_index].alive = False
+
+        # ? Reset cell
+        self.reset_cell(position)
 
     # * Method - Set cell
     def set_cell(self, **kwargs) -> None:
@@ -55,19 +66,21 @@ class Board:
     # * Method - Place pieces from piece handler
     def place_pieces(self) -> None:
         pieces = self.piece_handler.pieces
+        
         for _type in range(len(pieces)):
             for index in range(len(pieces[_type])):
                 piece = pieces[_type][index]
-                # print('Piece at', piece.position)
-                self.set_cell(
-                    cell=Cell(
-                        symbol=piece.symbol,
-                        property=piece.property,
-                        piece_index=index,
-                        type_index=_type
-                    ),
-                    position=piece.position,
-                )
+                
+                if piece.alive:
+                    self.set_cell(
+                        cell=Cell(
+                            symbol=piece.symbol,
+                            property=piece.property,
+                            piece_index=index,
+                            type_index=_type
+                        ),
+                        position=piece.position,
+                    )
 
     # * Method - Clear game board
     def clear(self) -> None:

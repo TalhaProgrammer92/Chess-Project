@@ -42,7 +42,8 @@ class Game:
 
     # * Method - Reset the game
     def reset_game(self) -> None:
-        if self.board is None:  # ! Temperarily avoid TypeError: Board.__init__() missing 1 required positional argument: 'pieces'
+        # ! Temperarily avoid TypeError
+        if self.board is None:
             return
 
         self.board.reset()
@@ -57,7 +58,6 @@ class Game:
         while not self.game_over:
             # ? Clear Screen
             clrscr()
-            # print()
             
             # ? Display board
             self.board.display()
