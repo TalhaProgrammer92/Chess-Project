@@ -16,7 +16,7 @@ def display_turn(player: Player):
 # * Function - Take input
 def take_input(message: Text, range: list) -> str:
     while True:
-        a = input(message)
+        a = input(message.__repr__() + ' ')
         if a in range:
             return a
         print(settings.message['error']['wrong-entry'])

@@ -67,10 +67,11 @@ class Game:
             display_turn(self.players[self.turn])
 
             # ? Get selected piece location
+            print()
             location: Position = parse_labeled_position(
                 take_input(
                     message=Text(
-                        text='Select piece: ',
+                        text='Select piece:',
                         property=settings.property['piece-position']
                     ),
                     range=get_position_labels()
