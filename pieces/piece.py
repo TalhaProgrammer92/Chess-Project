@@ -44,8 +44,27 @@ class Piece:
     def displacement(self, destination: Position) -> Position:
         return destination - self._position
 
+    # * Method - Check if steps are clear or enerable/valid
+    def are_steps_clear(self, steps: list[Position], board) -> bool:
+        # ? Iterate through each step
+        # print(steps)
+        for step in steps:
+            try:
+                # ? Get cell at current position i.e. self-position + step
+                cell: Cell = board.get_cell(self.position + step)
+                print(self.position, step, self.position + step) # ! Debug
+
+                # ? Check if cell is empty or movable
+                if cell.type_index != -1 or ['white', 'black'][cell.type_index] == self.group:
+                    return False
+
+            except Exception:
+                continue
+    
+        return True
+
     # * Method - If path is clear
-    def is_clear_path(self, destination: Position, board_grid: list) -> bool:
+    def is_clear_path(self, destination: Position, board) -> bool:
         # ? Necessary variables
         step: Position = self._position.get_step(destination)
         path: list[Position] = []
@@ -54,12 +73,24 @@ class Piece:
         position: Position = self._position
         while position != destination:
             path.append(position)
-            position.row += step.row
-            position.column += step.column
+            # position.row += step.row
+            # position.column += step.column
+            position += step
 
         # ? Check the path
-        for p in path:
-            pass
+        for i in range(len(path)):
+            # ? Get the type index
+            type_index: int = board.get_cell(path[i]).type_index
+            
+            # ? If current cell is not empty
+            if type_index != -1:
+                """
+                Case 1: If at last path the cell contain self-group piece then return false
+                Case 2: If 'case 1' becomes false then check if it's last cell or not means this cell must be empty
+                """
+                # ? If the piece belongs to self group
+                if ['white', 'black'][type_index] == self.group or i < len(path) - 1:
+                    return False
 
         return True
 
@@ -97,6 +128,21 @@ class Rook(Piece):
     @property
     def score_points(self) -> int:
         return self.__score_points
+    
+    # * Method - Check if the piece is movable or not
+    def is_movable(self, board) -> bool:
+        # ? Get all possibile single step positions
+        steps: list[Position] = [
+            # ! Upward
+            Position(row=1, column=0),
+            # ! Downward
+            Position(row=0, column=1),
+            # ! Left
+            Position(row=-1, column=0),
+            # ! Right
+            Position(row=0, column=-1)
+        ]
+        return self.are_steps_clear(steps, board)
 
 
 #############
@@ -121,6 +167,25 @@ class Knight(Piece):
     @property
     def score_points(self) -> int:
         return self.__score_points
+    
+    # * Method - Check if the piece is movable or not
+    def is_movable(self, board) -> bool:
+        # ? Get all possibile single step positions
+        steps: list[Position] = [
+            # ! Top-Right
+            Position(row=2, column=1),  # 1
+            Position(row=1, column=2),  # 2
+            # ! Top-Left
+            Position(row=2, column=-1), # 1
+            Position(row=1, column=-2), # 2
+            # ! Bottom-Left
+            Position(row=-2, column=-1),    # 1
+            Position(row=-1, column=-2),    # 2
+            # ! Bottom-Right
+            Position(row=-2, column=1), # 1
+            Position(row=-1, column=2)  # 2
+        ]
+        return self.are_steps_clear(steps, board)
 
 
 #############
@@ -142,6 +207,21 @@ class Bishop(Piece):
     @property
     def score_points(self) -> int:
         return self.__score_points
+    
+    # * Method - Check if the piece is movable or not
+    def is_movable(self, board) -> bool:
+        # ? Get all possibile single step positions
+        steps: list[Position] = [
+            # ! Top-Right
+            Position(row=1, column=1),
+            # ! Top-Left
+            Position(row=1, column=-1),
+            # ! Bottom-Left
+            Position(row=-1, column=-1),
+            # ! Bottom-Right
+            Position(row=-1, column=1)
+        ]
+        return self.are_steps_clear(steps, board)
 
 
 #############
@@ -165,6 +245,30 @@ class Queen(Piece):
     @property
     def score_points(self) -> int:
         return self.__score_points
+    
+    # * Method - Check if the piece is movable or not
+    def is_movable(self, board) -> bool:
+        # ? Get all possibile single step positions
+        steps: list[Position] = [
+            # ! Top-Right
+            Position(row=1, column=1),
+            # ! Top-Left
+            Position(row=1, column=-1),
+            # ! Bottom-Left
+            Position(row=-1, column=-1),
+            # ! Bottom-Right
+            Position(row=-1, column=1),
+            
+            # ! Upward
+            Position(row=1, column=0),
+            # ! Downward
+            Position(row=0, column=1),
+            # ! Left
+            Position(row=-1, column=0),
+            # ! Right
+            Position(row=0, column=-1)
+        ]
+        return self.are_steps_clear(steps, board)
 
 
 ###########
@@ -216,6 +320,17 @@ class Pawn(Piece):
             'knight': lambda: Knight(type=self._group, position=self._position)
         }
         return promote[piece]()
+    
+    # * Method - Check if the piece is movable or not
+    def is_movable(self, board) -> bool:
+        # ? Get all possibile single step positions
+        row_step: int = 1 if self.group == 'white' else -1
+        steps: list[Position] = [
+            Position(row=row_step, column=0),
+            Position(row=row_step, column=1),
+            Position(row=row_step, column=-1)
+        ]
+        return self.are_steps_clear(steps, board)
 
 
 ###########
@@ -241,3 +356,27 @@ class King(Piece):
     @property
     def score_points(self) -> int:
         return self.__score_points
+    
+    # * Method - Check if the piece is movable or not
+    def is_movable(self, board) -> bool:
+        # ? Get all possibile single step positions
+        steps: list[Position] = [
+            # ! Top-Right
+            Position(row=1, column=1),
+            # ! Top-Left
+            Position(row=1, column=-1),
+            # ! Bottom-Left
+            Position(row=-1, column=-1),
+            # ! Bottom-Right
+            Position(row=-1, column=1),
+
+            # ! Upward
+            Position(row=1, column=0),
+            # ! Downward
+            Position(row=0, column=1),
+            # ! Left
+            Position(row=-1, column=0),
+            # ! Right
+            Position(row=0, column=-1)
+        ]
+        return self.are_steps_clear(steps, board)

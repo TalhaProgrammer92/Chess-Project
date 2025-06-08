@@ -2,12 +2,12 @@ from board.board import *
 from pieces.piece import *
 from pieces.handler import *
 from player.player import *
-from utils.common import *
 from logic.misc import *
 from ui.text import *
 from data.csv_handler import save_game
 from data.misc import total_slots
 import utils.settings as settings
+import utils.common as common
 
 
 ################################################
@@ -61,7 +61,7 @@ class Game:
         print()
         _input: str = take_input(
             message=message,
-            range=_range
+            _range=_range
         )
         
         # ? Check if user enter 'save' keyword in order to save current game
@@ -77,8 +77,37 @@ class Game:
         # ? Return
         return parse_labeled_position(_input)
 
+    # * Method - Check piece selection validation
+    def is_valid_piece_selection(self, position: Position) -> bool:
+        # ? Get cell at given position
+        cell: Cell = self.board.get_cell(position)
+
+        # ? Check if cell is empty or not
+        print('Type index:', cell.type_index) # ! Debug
+        if cell.type_index == -1:
+            print('Cell is not empty')
+            return False
+
+        # ? Check if piece belongs to correct group or not
+        if cell.type_index == self.turn:
+            print('Cell has a piece from your group')
+            return False
+        
+        # ? Check if piece is movable
+        if not self.board.piece_handler.pieces[cell.type_index][cell.piece_index].is_movable(self.board):
+            print('Selected piece is not movable!')
+            return False
+
+        return True
+        
+
     # * Method - Start the game
     def start_game(self) -> None:
+        # ? Valid inputs list
+        valid_inputs: list = common.get_position_labels()
+        valid_inputs.extend(['save', 'load'])
+        
+        # ? Game-loop
         while not self.game_over:
             # ? Clear Screen
             clrscr()
@@ -91,18 +120,23 @@ class Game:
             display_turn(self.players[self.turn])
 
             # ? Get selected piece location
-            position: Position | None = self.take_position_input(
-                message=Text(
-                    text='Select piece:',
-                    property=settings.property['piece-position']
-                ),
-                
-                _range=get_position_labels().extend(['save', 'exit'])
-            )
+            while True:
+                position: Position | None = self.take_position_input(
+                    message=Text(
+                        text='Select piece:',
+                        property=settings.property['piece-position']
+                    ),
+                    
+                    _range=valid_inputs
+                )
 
-            # ? Quit game
-            if position is None:
-                return
+                # ? Quit game
+                if position is None:
+                    return
+                
+                # ? Check if the piece selection valid
+                if self.is_valid_piece_selection(position):
+                    break
 
             # ? Update state
-            self.update() 
+            self.update()

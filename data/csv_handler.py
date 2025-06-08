@@ -1,7 +1,7 @@
 import csv
 from os.path import join, exists
 from os import mkdir, remove
-from logic.game import Game
+# from logic.game import Game
 from player.player import Player
 from pieces.handler import PieceHandler
 
@@ -63,7 +63,7 @@ class Writer:
 
 
 # * Function - Save a game
-def save_game(game: Game, slot_name: str) -> None:
+def save_game(game, slot_name: str) -> None:
     path: str = join('data', slot_name)
     
     # ? Save game stats
