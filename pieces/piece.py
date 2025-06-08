@@ -55,6 +55,7 @@ class Piece:
                 print(self.position, step, self.position + step) # ! Debug
 
                 # ? Check if cell is empty or movable
+                # ! Contains bug
                 if cell.type_index != -1 or ['white', 'black'][cell.type_index] == self.group:
                     return False
 
