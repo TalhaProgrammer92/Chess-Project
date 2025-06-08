@@ -5,6 +5,8 @@ from player.player import *
 from utils.common import *
 from logic.misc import *
 from ui.text import *
+from data.csv_handler import save_game
+from data.misc import total_slots
 import utils.settings as settings
 
 
@@ -53,6 +55,28 @@ class Game:
         for player in self.players:
             player.reset_score()
 
+    # * Method - Take input
+    def take_position_input(self, message: Text, _range: list) -> Position | None:
+        # ? Take input
+        print()
+        _input: str = take_input(
+            message=message,
+            range=_range
+        )
+        
+        # ? Check if user enter 'save' keyword in order to save current game
+        if _input == 'save':
+            save_game(self, f'slot-{total_slots() + 1}')
+            print("Successfully Saved!")
+            return self.take_position_input(message, _range)
+
+        # ? Check if user enter 'exit' keyword in order to quit the game
+        if _input == 'exit':
+            return None
+        
+        # ? Return
+        return parse_labeled_position(_input)
+
     # * Method - Start the game
     def start_game(self) -> None:
         while not self.game_over:
@@ -67,16 +91,18 @@ class Game:
             display_turn(self.players[self.turn])
 
             # ? Get selected piece location
-            print()
-            location: Position = parse_labeled_position(
-                take_input(
-                    message=Text(
-                        text='Select piece:',
-                        property=settings.property['piece-position']
-                    ),
-                    range=get_position_labels()
-                )
+            position: Position | None = self.take_position_input(
+                message=Text(
+                    text='Select piece:',
+                    property=settings.property['piece-position']
+                ),
+                
+                _range=get_position_labels().extend(['save', 'exit'])
             )
 
+            # ? Quit game
+            if position is None:
+                return
+
             # ? Update state
-            self.update()
+            self.update() 
