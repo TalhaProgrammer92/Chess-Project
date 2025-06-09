@@ -83,19 +83,19 @@ class Game:
         cell: Cell = self.board.get_cell(position)
 
         # ? Check if cell is empty or not
-        print('Type index:', cell.type_index) # ! Debug
+        # print('Type index:', cell.type_index) # ! Debug
         if cell.type_index == -1:
-            print('Cell is not empty')  # ! Debug
+            print('Cell is not empty')  # ! Debug & Alert
             return False
 
         # ? Check if piece belongs to correct group or not
         if cell.type_index != self.turn:
-            print('The selected piece does not belong to your group')   # ! Debug
+            print('The selected piece does not belong to your group')   # ! Debug & Alert
             return False
         
         # ? Check if piece is movable
         if not self.board.piece_handler.pieces[cell.type_index][cell.piece_index].is_movable(self.board):
-            print('Selected piece is not movable!') # ! Debug
+            print('Selected piece is not movable!') # ! Debug & Alert
             return False
 
         return True
@@ -138,7 +138,7 @@ class Game:
                 if self.is_valid_piece_selection(position):
                     break
 
-            a = input('Movable!')   # ! Hold for debug
+            # a = input('Movable!')   # ! Hold for debug
 
             # ? Update state
             self.update()
