@@ -138,7 +138,7 @@ class Game:
                 if self.is_valid_piece_selection(position):
                     break
 
-            a = input()
+            a = input('Movable!')   # ! Hold for debug
 
             # ? Update state
             self.update()
