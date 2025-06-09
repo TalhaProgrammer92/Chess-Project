@@ -52,17 +52,17 @@ class Piece:
             try:
                 # ? Get cell at current position i.e. self-position + step
                 cell: Cell = board.get_cell(self.position + step)
-                print(self.position, step, self.position + step) # ! Debug
+                print(self.position, step, self.position + step, end=' - ') # ! Debug
 
                 # ? Check if cell is empty or movable
-                # ! Contains bug
-                if cell.type_index != -1 or ['white', 'black'][cell.type_index] == self.group:
-                    return False
+                print(cell.symbol, cell.piece_index, ['white', 'black'][cell.type_index], self.group)    # ! Debug
+                if cell.piece_index == -1 or ['white', 'black'][cell.type_index] == self.group:
+                    return True
 
             except Exception:
                 continue
     
-        return True
+        return False
 
     # * Method - If path is clear
     def is_clear_path(self, destination: Position, board) -> bool:
@@ -325,7 +325,7 @@ class Pawn(Piece):
     # * Method - Check if the piece is movable or not
     def is_movable(self, board) -> bool:
         # ? Get all possibile single step positions
-        row_step: int = 1 if self.group == 'white' else -1
+        row_step: int = -1 if self.group == 'white' else 1
         steps: list[Position] = [
             Position(row=row_step, column=0),
             Position(row=row_step, column=1),

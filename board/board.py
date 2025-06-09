@@ -65,22 +65,39 @@ class Board:
 
     # * Method - Place pieces from piece handler
     def place_pieces(self) -> None:
+        # ? Get pieces' list from piece handler
         pieces = self.piece_handler.pieces
+
+        # ? Group list
+        groups: list[str] = ['white', 'black']
         
-        for _type in range(len(pieces)):
-            for index in range(len(pieces[_type])):
-                piece = pieces[_type][index]
-                
+        # ? Place them
+        for group in pieces:
+            for index in range(len(group)):
+                piece = group[index]
+
                 if piece.alive:
-                    self.set_cell(
-                        cell=Cell(
-                            symbol=piece.symbol,
-                            property=piece.property,
-                            piece_index=index,
-                            type_index=_type
-                        ),
-                        position=piece.position,
-                    )
+                    self.set_cell(cell=Cell(
+                        symbol=piece.symbol,
+                        property=piece.property,
+                        piece_index=index,
+                        type_index=groups.index(piece.group)
+                    ), position=piece.position)
+
+        # for _type in range(len(pieces)):
+        #     for index in range(len(pieces[_type])):
+        #         piece = pieces[_type][index]
+                
+        #         if piece.alive:
+        #             self.set_cell(
+        #                 cell=Cell(
+        #                     symbol=piece.symbol,
+        #                     property=piece.property,
+        #                     piece_index=index,
+        #                     type_index=_type
+        #                 ),
+        #                 position=piece.position,
+        #             )
 
     # * Method - Clear game board
     def clear(self) -> None:

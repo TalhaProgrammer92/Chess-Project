@@ -138,5 +138,7 @@ class Game:
                 if self.is_valid_piece_selection(position):
                     break
 
+            a = input()
+
             # ? Update state
             self.update()
