@@ -52,11 +52,12 @@ class Piece:
             try:
                 # ? Get cell at current position i.e. self-position + step
                 cell: Cell = board.get_cell(self.position + step)
-                print(self.position, step, self.position + step, end=' - ') # ! Debug
+                print('Piece: {} - Step: {} - Next Step: {}'.format(self.position, step, self.position + step), end=' - ') # ! Debug
 
                 # ? Check if cell is empty or movable
-                print(cell.symbol, cell.piece_index, ['white', 'black'][cell.type_index], self.group)    # ! Debug
-                if cell.piece_index == -1 or ['white', 'black'][cell.type_index] == self.group:
+                cell_group: str = ['white', 'black'][cell.type_index] if cell.type_index != -1 else 'None'
+                print('Cell: {} - Piece Index: {} - Group (Cell): {} - Group (Piece): {}'.format(cell.symbol, cell.piece_index, cell_group, self.group))    # ! Debug
+                if cell.piece_index == -1 or cell_group != self.group:
                     return True
 
             except Exception:
