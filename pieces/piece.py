@@ -63,7 +63,7 @@ class Piece:
                     break
 
             except Exception:
-                print('Out of Range!')  # ! Debug
+                # print('Out of Range!')  # ! Debug
                 continue
     
         return False
