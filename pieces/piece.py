@@ -75,14 +75,15 @@ class Piece:
         path: list[Position] = []
 
         # ? Generate path
+        print('\n=== Generating Path ===\n')    # ! Debug
         position: Position = self._position
         while position != destination:
-            path.append(position)
-            # position.row += step.row
-            # position.column += step.column
+            print('Current: {} - Step: {} - New: {}'.format(position, step, position + step))   # ! Debug
             position += step
+            path.append(position)
 
         # ? Check the path
+        print('\n=== Checking Path ===\n')    # ! Debug
         for i in range(len(path)):
             # ? Get the type index
             type_index: int = board.get_cell(path[i]).type_index
@@ -94,6 +95,7 @@ class Piece:
                 Case 2: If 'case 1' becomes false then check if it's last cell or not means this cell must be empty
                 """
                 # ? If the piece belongs to self group
+                print('Group (Cell): {} - Group (Piece): {} - Path Index: {}'.format(['white', 'black'][type_index] if type_index != -1 else 'None', self.group, i))    # ! Debug
                 if ['white', 'black'][type_index] == self.group or i < len(path) - 1:
                     return False
 
@@ -101,7 +103,11 @@ class Piece:
 
     # * Method - Check if move is valid
     def is_valid_move(self, destination: Position) -> bool:
-        return self.displacement(destination) in self._valid_moves
+        result: bool = self.displacement(destination) in self._valid_moves
+
+        if not result: print("{} not in path", self.displacement(destination))  # ! Debug
+
+        return result
 
     # * Method - Move the piece
     def move(self, destination: Position):

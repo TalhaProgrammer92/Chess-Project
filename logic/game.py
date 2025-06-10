@@ -82,7 +82,7 @@ class Game:
         # ? Get piece from given position
         cell: Cell = self.board.get_cell(position)
         type_index, piece_index = cell.type_index, cell.piece_index
-        piece = self.board.piece_handler[type_index][piece_index]
+        piece = self.board.piece_handler.pieces[type_index][piece_index]
 
         # ? Check if destination is valid
         if not piece.is_valid_move(destination):
