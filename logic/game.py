@@ -77,6 +77,26 @@ class Game:
         # ? Return
         return parse_labeled_position(_input)
 
+    # * Method - Check if destination is valid
+    def is_valid_destination(self, position: Position, destination: Position) -> bool:
+        # ? Get piece from given position
+        cell: Cell = self.board.get_cell(position)
+        type_index, piece_index = cell.type_index, cell.piece_index
+        piece = self.board.piece_handler[type_index][piece_index]
+
+        # ? Check if destination is valid
+        if not piece.is_valid_move(destination):
+            print("Invalid Destination!")   # ! Debug
+            return False
+        
+        # ? Check if path is clear
+        is_path_clear: bool = piece.is_clear_path(destination, self.board)
+        
+        if not is_path_clear: print("Path is not clear!") # ! Debug
+        
+        return is_path_clear
+
+
     # * Method - Check piece selection validation
     def is_valid_piece_selection(self, position: Position) -> bool:
         # ? Get cell at given position
@@ -99,7 +119,6 @@ class Game:
             return False
 
         return True
-        
 
     # * Method - Start the game
     def start_game(self) -> None:
@@ -150,13 +169,17 @@ class Game:
                 )
 
                 # ? Quit game
-                if position is None:
+                if destination is None:
                     return
                 
                 # ? Check if the destination is valid
-                pass
+                if self.is_valid_destination(position, destination):
+                    break
+            
+            # ? Move the piece
+            self.board.move_piece(position, destination)
 
-            # a = input('Movable!')   # ! Hold for debug
+            a = input('Movable!')   # ! Hold for debug
 
             # ? Update state
             self.update()
