@@ -123,7 +123,7 @@ class Game:
             while True:
                 position: Position | None = self.take_position_input(
                     message=Text(
-                        text='Select piece:',
+                        text='Select Position of piece:',
                         property=settings.property['piece-position']
                     ),
                     
@@ -137,6 +137,24 @@ class Game:
                 # ? Check if the piece selection valid
                 if self.is_valid_piece_selection(position):
                     break
+
+            # ? Get selected piece destination
+            while True:
+                destination: Position | None = self.take_position_input(
+                    message=Text(
+                        text='Select Destination for piece:',
+                        property=settings.property['piece-position']
+                    ),
+
+                    _range=valid_inputs
+                )
+
+                # ? Quit game
+                if position is None:
+                    return
+                
+                # ? Check if the destination is valid
+                pass
 
             # a = input('Movable!')   # ! Hold for debug
 
