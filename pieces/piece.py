@@ -82,7 +82,7 @@ class Piece:
         group = ['white', 'black']
         print("\n=== Checking Path ===\n")  # ! Debug
         for position in path:
-            print("Position: {} - Index: {}".format(position, board.get_cell(position).type_index))     # ! Debug
+            print("Position: {} - Group Index: {}".format(position, board.get_cell(position).type_index))     # ! Debug
 
             # ? If current cell is not empty
             if not board.is_empty_cell(position):
