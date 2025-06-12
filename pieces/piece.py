@@ -79,12 +79,20 @@ class Piece:
     # * Method - Is path clear
     def is_clear_path(self, path: list[Position], board) -> bool:
         # ? Checking path
+        group = ['white', 'black']
         print("\n=== Checking Path ===\n")  # ! Debug
         for position in path:
             print("Position: {} - Index: {}".format(position, board.get_cell(position).type_index))     # ! Debug
 
+            # ? If current cell is not empty
             if not board.is_empty_cell(position):
                 print("\nNot Clear!")     # ! Debug
+                
+                # ? If the cell has a piece belong to self group
+                if group[board.get_cell(position).type_index] == self.group:
+                    print("Same Group Piece!")     # ! Debug
+                    return False
+                
                 return False
         
         print("\nClear!")     # ! Debug
