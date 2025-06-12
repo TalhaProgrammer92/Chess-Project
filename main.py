@@ -25,4 +25,5 @@ if __name__ == '__main__':
 
     piece = board.piece_handler.pieces[0][8]
 
-    piece.is_clear_path(Position(row=7, column=5), board)
+    path: list[Position] = piece.generate_path(Position(row=7, column=5))
+    piece.is_clear_path(path, board)

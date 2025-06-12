@@ -75,6 +75,20 @@ class Piece:
         if not result: print("{} not in path", self.displacement(destination))  # ! Debug
 
         return result
+    
+    # * Method - Is path clear
+    def is_clear_path(self, path: list[Position], board) -> bool:
+        # ? Checking path
+        print("\n=== Checking Path ===\n")  # ! Debug
+        for position in path:
+            print("Position: {} - Index: {}".format(position, board.get_cell(position).type_index))     # ! Debug
+
+            if not board.is_empty_cell(position):
+                print("\nNot Clear!")     # ! Debug
+                return False
+        
+        print("\nClear!")     # ! Debug
+        return True
 
     # * Method - Move the piece
     def move(self, destination: Position):
@@ -122,8 +136,8 @@ class Rook(Piece):
         ]
         return self.are_steps_clear(steps, board)
     
-    # * Method - Check if path is clear
-    def is_clear_path(self, destination: Position, board) -> bool:
+    # * Method - Generate path from given destination and current position
+    def generate_path(self, destination: Position) -> list[Position]:
         step: Position = self.position.get_step(destination)
 
         # ? Generating path
@@ -142,18 +156,8 @@ class Rook(Piece):
 
             path.append(position)
             print("New: {} | Destination: {} | Path: {}".format(current, destination, path))     # ! Debug
-    
-        # ? Checking path
-        print("\n=== Checking Path ===\n")  # ! Debug
-        for position in path:
-            print("Position: {} - Index: {}".format(position, board.get_cell(position).type_index))     # ! Debug
-
-            if not board.is_empty_cell(position):
-                print("\nNot Clear!")     # ! Debug
-                return False
         
-        print("\nClear!")     # ! Debug
-        return True
+        return path
 
 
 #############
@@ -197,6 +201,10 @@ class Knight(Piece):
             Position(row=-1, column=2)  # 2
         ]
         return self.are_steps_clear(steps, board)
+    
+    # * Method - Generate path from given destination and current position
+    def generate_path(self, destination: Position) -> list[Position]:
+        pass
 
 
 #############
@@ -233,6 +241,10 @@ class Bishop(Piece):
             Position(row=-1, column=1)
         ]
         return self.are_steps_clear(steps, board)
+    
+    # * Method - Generate path from given destination and current position
+    def generate_path(self, destination: Position) -> list[Position]:
+        pass
 
 
 #############
@@ -280,6 +292,10 @@ class Queen(Piece):
             Position(row=0, column=-1)
         ]
         return self.are_steps_clear(steps, board)
+    
+    # * Method - Generate path from given destination and current position
+    def generate_path(self, destination: Position) -> list[Position]:
+        pass
 
 
 ###########
@@ -342,6 +358,10 @@ class Pawn(Piece):
             Position(row=row_step, column=-1)
         ]
         return self.are_steps_clear(steps, board)
+    
+    # * Method - Generate path from given destination and current position
+    def generate_path(self, destination: Position) -> list[Position]:
+        pass
 
 
 ###########
@@ -391,3 +411,7 @@ class King(Piece):
             Position(row=0, column=-1)
         ]
         return self.are_steps_clear(steps, board)
+    
+    # * Method - Generate path from given destination and current position
+    def generate_path(self, destination: Position) -> list[Position]:
+        pass
