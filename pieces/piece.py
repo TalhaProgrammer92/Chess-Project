@@ -95,7 +95,7 @@ class Piece:
                     return False
                 
                 # ? If the cell has a piece belong to different (opponent) group
-                elif _group != self.group and position != path[-1]:
+                elif position != path[-1]:
                     print("Path Blocked!")      # ! Debug
                     return False
                 

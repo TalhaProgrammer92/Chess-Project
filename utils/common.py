@@ -37,6 +37,10 @@ class Position:
     def __eq__(self, other: 'Position') -> bool:
         return self.row == other.row and self.column == other.column
 
+    # ! Note Equal comparision
+    def __ne__(self, other: 'Position') -> bool:
+        return self.row != other.row or self.column != other.column
+
     # * Method - Representation
     def __repr__(self) -> str:
         return f'({self.row}, {self.column})'
