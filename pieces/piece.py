@@ -87,10 +87,16 @@ class Piece:
             # ? If current cell is not empty
             if not board.is_empty_cell(position):
                 print("\nNot Clear!")     # ! Debug
+                _group: str = group[board.get_cell(position).type_index]
                 
-                # ? If the cell has a piece belong to self group
-                if group[board.get_cell(position).type_index] == self.group:
+                # ? If the cell has a piece belong to same group
+                if _group == self.group:
                     print("Same Group Piece!")     # ! Debug
+                    return False
+                
+                # ? If the cell has a piece belong to different (opponent) group
+                elif _group != self.group and position != path[-1]:
+                    print("Path Blocked!")      # ! Debug
                     return False
                 
                 return False
