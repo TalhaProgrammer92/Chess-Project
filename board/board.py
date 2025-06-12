@@ -20,6 +20,10 @@ class Board:
     def get_cell(self, position: Position) -> Cell:
         return self.__grid[position.row][position.column]
 
+    # * Method - Is cell empty
+    def is_empty_cell(self, position: Position) -> bool:
+        return self.get_cell(position).type_index == -1
+
     # * Method - Get Indices
     def get_indices(self, position: Position) -> tuple[int, int]:
         cell: Cell = self.get_cell(position)
@@ -83,21 +87,6 @@ class Board:
                         piece_index=index,
                         type_index=groups.index(piece.group)
                     ), position=piece.position)
-
-        # for _type in range(len(pieces)):
-        #     for index in range(len(pieces[_type])):
-        #         piece = pieces[_type][index]
-                
-        #         if piece.alive:
-        #             self.set_cell(
-        #                 cell=Cell(
-        #                     symbol=piece.symbol,
-        #                     property=piece.property,
-        #                     piece_index=index,
-        #                     type_index=_type
-        #                 ),
-        #                 position=piece.position,
-        #             )
 
     # * Method - Clear game board
     def clear(self) -> None:

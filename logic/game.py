@@ -90,11 +90,11 @@ class Game:
             return False
         
         # ? Check if path is clear
-        is_path_clear: bool = piece.is_clear_path(destination, self.board)
+        # is_path_clear: bool = piece.is_clear_path(destination, self.board)
         
-        if not is_path_clear: print("Path is not clear!") # ! Debug
+        # if not is_path_clear: print("Path is not clear!") # ! Debug
         
-        return is_path_clear
+        # return is_path_clear
 
 
     # * Method - Check piece selection validation

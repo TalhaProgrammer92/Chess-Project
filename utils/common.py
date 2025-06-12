@@ -15,10 +15,7 @@ class Position:
     def get_step(self, destination: 'Position') -> 'Position':
         row: int = self.row - destination.row
         column: int = self.column - destination.column
-        return Position(
-            row=0 if row == 0 else 1 if row > 0 else -1,
-            column=0 if column == 0 else 1 if column > 0 else -1
-        )
+        return Position(row=row, column=column)
 
     # * Methods - Overloaded Operators
 

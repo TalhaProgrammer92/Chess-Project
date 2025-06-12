@@ -16,8 +16,13 @@ if __name__ == '__main__':
         Player(name='Rayan Zulfiqar', group='black')
     ]
 
-    game: Game = Game(
-        board=board,
-        players=players
-    )
-    game.start_game()
+    # game: Game = Game(
+    #     board=board,
+    #     players=players
+    # )
+    # game.start_game()
+    board.display()
+
+    piece = board.piece_handler.pieces[0][8]
+
+    piece.is_clear_path(Position(row=7, column=5), board)

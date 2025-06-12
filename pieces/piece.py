@@ -68,39 +68,6 @@ class Piece:
     
         return False
 
-    # * Method - If path is clear
-    def is_clear_path(self, destination: Position, board) -> bool:
-        # ? Necessary variables
-        step: Position = self._position.get_step(destination)
-        path: list[Position] = []
-
-        # ? Generate path
-        print('\n=== Generating Path ===\n')    # ! Debug
-        position: Position = self._position
-        while position != destination:
-            print('Current: {} - Step: {} - New: {}'.format(position, step, position + step))   # ! Debug
-            position += step
-            path.append(position)
-
-        # ? Check the path
-        print('\n=== Checking Path ===\n')    # ! Debug
-        for i in range(len(path)):
-            # ? Get the type index
-            type_index: int = board.get_cell(path[i]).type_index
-            
-            # ? If current cell is not empty
-            if type_index != -1:
-                """
-                Case 1: If at last path the cell contain self-group piece then return false
-                Case 2: If 'case 1' becomes false then check if it's last cell or not means this cell must be empty
-                """
-                # ? If the piece belongs to self group
-                print('Group (Cell): {} - Group (Piece): {} - Path Index: {}'.format(['white', 'black'][type_index] if type_index != -1 else 'None', self.group, i))    # ! Debug
-                if ['white', 'black'][type_index] == self.group or i < len(path) - 1:
-                    return False
-
-        return True
-
     # * Method - Check if move is valid
     def is_valid_move(self, destination: Position) -> bool:
         result: bool = self.displacement(destination) in self._valid_moves
@@ -154,6 +121,39 @@ class Rook(Piece):
             Position(row=0, column=-1)
         ]
         return self.are_steps_clear(steps, board)
+    
+    # * Method - Check if path is clear
+    def is_clear_path(self, destination: Position, board) -> bool:
+        step: Position = self.position.get_step(destination)
+
+        # ? Generating path
+        print("\n=== Generating Path ===\n")    # ! Debug
+        path: list[Position] = []
+        for i in range(max(abs(step.row), abs(step.column))):
+            current: Position = path[-1] if len(path) > 0 else self.position
+            # current.copy()
+            
+            print("Current: {} - Step: {} -> ".format(current, step), end='')   # ! Debug
+
+            position: Position = Position(
+                row=current.row + (0 if step.row == 0 else 1 if self.position.row < destination.row else -1),
+                column=current.column + (0 if step.column == 0 else 1 if self.position.column < destination.column else -1)
+            )
+
+            path.append(position)
+            print("New: {} | Destination: {} | Path: {}".format(current, destination, path))     # ! Debug
+    
+        # ? Checking path
+        print("\n=== Checking Path ===\n")  # ! Debug
+        for position in path:
+            print("Position: {} - Index: {}".format(position, board.get_cell(position).type_index))     # ! Debug
+
+            if not board.is_empty_cell(position):
+                print("\nNot Clear!")     # ! Debug
+                return False
+        
+        print("\nClear!")     # ! Debug
+        return True
 
 
 #############
